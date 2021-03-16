@@ -1,0 +1,133 @@
+{{ header }}{{ column_left }}
+<div id="content">
+
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ cleanup_db_url }}" class="btn btn-primary" data-toggle="tooltip" title="{{ text_cleanup_db }}">
+          <i class="fa fa-refresh"></i>
+        </a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">About</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <tbody>
+          {% for key, value in kreativan %}
+            <tr>
+              <td>{{ key }}</td>
+              <td>{{ value }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!--  Settings -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Settings</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="kreativan-settings-form" class="form-horizontal">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Example Options
+            </label>
+            <div class="col-sm-10">
+              <select name="kreativan_option_example" class="form-control">
+                <option value="option_1" {% if kreativan_option_example == 'option_1' %}selected="selected"{% endif %}>
+                  Option 1
+                </option>
+                <option value="option_2" {% if kreativan_option_example == 'option_2' %}selected="selected"{% endif %}>
+                  Option 2
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- submit -->
+          <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+              <button type="submit" form="kreativan-settings-form" class="btn btn-primary">
+                <i class="fa fa-save"></i> Save
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!--  Hero -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Hero</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="kreativan-hero-form" class="form-horizontal">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              Status
+            </label>
+            <div class="col-sm-10">
+              <select name="kreativan_hero_status" class="form-control">
+                <option value="yes" {% if kreativan_hero_status == 'yes' %}selected="selected"{% endif %}>
+                  Enable
+                </option>
+                <option value="no" {% if kreativan_hero_status == 'no' %}selected="selected"{% endif %}>
+                  Disabled
+                </option>
+            </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-banner">Banner</label>
+            <div class="col-sm-10">
+              <select name="kreativan_hero_banner" id="input-banner" class="form-control">
+                {% for banner in banners %}
+                {% if banner.banner_id == kreativan_hero_banner %}
+                <option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
+                {% else %}
+                <option value="{{ banner.banner_id }}">{{ banner.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <!-- submit -->
+          <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+              <button type="submit" form="kreativan-hero-form" class="btn btn-primary">
+                <i class="fa fa-save"></i> Save
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</div>

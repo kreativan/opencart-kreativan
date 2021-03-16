@@ -23,14 +23,15 @@
     <search><![CDATA[ $catalog = array(); ]]></search>
       <add position="before"><![CDATA[
           $kreativan = array();
+          // Items
           $kreativan[] = array(
-            'name'	   => 'Homepage Layout',
-            'href'     => $this->url->link('design/layout/edit', 'user_token=' . $this->session->data['user_token'] . '&layout_id=1', true),
+            'name'	   => 'Settings',
+            'href'     => $this->url->link('kreativan/settings', 'user_token=' . $this->session->data['user_token'], true),
             'children' => array()
           );
           $kreativan[] = array(
-            'name'	   => 'Custom Page',
-            'href'     => $this->url->link('kreativan/custom_page', 'user_token=' . $this->session->data['user_token'], true),
+            'name'	   => 'Homepage Layout',
+            'href'     => $this->url->link('design/layout/edit', 'user_token=' . $this->session->data['user_token'] . '&layout_id=1', true),
             'children' => array()
           );
           $kreativan_module_db = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `code` = 'kreativan' ORDER BY `name`");
