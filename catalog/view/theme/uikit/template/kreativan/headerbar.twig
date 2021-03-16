@@ -1,0 +1,20 @@
+<div class="uk-flex uk-flex-between">
+
+  <ul class="uk-subnav uk-margin-remove">
+    <li><span><span uk-icon="icon: phone"></span> {{ telephone }}</span></li>
+  </ul>
+
+  <ul class="uk-subnav uk-margin-remove">
+    <li>{{ language }}</li>
+    <li>{{ currency }}</li>
+  </ul>
+
+  <ul class="uk-subnav uk-margin-remove">
+    {% if not logged %}
+      <li><a href="{{ login }}">{{ text_login }}</a></li>
+      <li><a href="{{ register }}">{{ text_register }}</a></li>
+    {% endif %}
+    <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+  </ul>
+
+</div>

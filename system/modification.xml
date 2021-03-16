@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+<name>Modification Default</name>
+<code>default</code>
+<version>1.1</version>
+<author>OpenCart Ltd</author>
+<link>http://www.opencart.com</link>
+
+<file path="system/{engine,library}/{action,loader,config,language}*.php|system/library/template/template.php">
+  <operation>
+    <search regex="true">
+      <![CDATA[~(require|include)(_once)?\(([^)]+)~]]>
+    </search>
+    <add position="replace">
+      <![CDATA[$1$2(modification($3)]]>
+    </add>
+  </operation>
+</file>
+
+<!-- add kreativan menu on sidebar -->
+<file path="admin/controller/common/column_left.php">
+  <operation>
+    <search><![CDATA[ $catalog = array(); ]]></search>
+      <add position="before"><![CDATA[
+          $kreativan = array();
+          $kreativan[] = array(
+            'name'	   => 'Homepage Layout',
+            'href'     => $this->url->link('design/layout/edit', 'user_token=' . $this->session->data['user_token'] . '&layout_id=1', true),
+            'children' => array()
+          );
+          $kreativan[] = array(
+            'name'	   => 'Custom Page',
+            'href'     => $this->url->link('kreativan/custom_page', 'user_token=' . $this->session->data['user_token'], true),
+            'children' => array()
+          );
+          $kreativan_module_db = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `code` = 'kreativan' ORDER BY `name`");
+          if($kreativan_module_db->num_rows > 0) {
+            $kreativan_module_id = $kreativan_module_db->row['module_id'];
+            $kreativan[] = array(
+              'name'	   => 'Custom Module',
+              'href'     => $this->url->link('extension/module/kreativan', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $kreativan_module_id, true),
+              'children' => array()
+            );
+          }
+          $kreativan[] = array(
+            'name'	   => 'Modules',
+            'href'     => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true),
+            'children' => array()
+          );
+          $data['menus'][] = array(
+            'id'       => 'kreativan-menu',
+            'icon'	   => 'fa-html5',
+            'name'	   => 'Kreativan',
+            'href'     => '',
+            'children' => $kreativan
+          );
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- add offcanvas_menu menu to header controller -->
+<file path="catalog/controller/common/header.php">
+  <operation>
+    <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
+    <add position="before"><![CDATA[
+        $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
+        $data['offcanvas_cart'] = $this->load->controller('kreativan/offcanvas_cart');
+        $data['headerbar'] = $this->load->controller('kreativan/headerbar');
+        $data['navbar'] = $this->load->controller('kreativan/navbar');
+      ]]>
+    </add>
+  </operation>
+</file>
+
+</modification>
