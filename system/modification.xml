@@ -60,15 +60,27 @@
   </operation>
 </file>
 
-<!-- add offcanvas_menu menu to header controller -->
+<!-- header controller -->
 <file path="catalog/controller/common/header.php">
   <operation>
     <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
     <add position="before"><![CDATA[
+        $data['is_home'] = $this->request->get['route'] == 'common/home' ? true : false;
         $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
         $data['offcanvas_cart'] = $this->load->controller('kreativan/offcanvas_cart');
         $data['headerbar'] = $this->load->controller('kreativan/headerbar');
         $data['navbar'] = $this->load->controller('kreativan/navbar');
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- home controller -->
+<file path="catalog/controller/common/home.php">
+  <operation>
+    <search><![CDATA[ $this->response->setOutput($this->load->view('common/home', $data)); ]]></search>
+    <add position="before"><![CDATA[
+        $data['hero'] = $this->load->controller('kreativan/hero');
       ]]>
     </add>
   </operation>

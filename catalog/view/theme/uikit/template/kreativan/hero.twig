@@ -1,0 +1,10 @@
+{% if hero_status %}
+<h1 class="uk-text-center">Hero</h1>
+<ul class="uk-text-center">
+{% for item in items %}
+  <li>
+    {{ item.title }} <br /> {{ item.image }} <br /> {{ item.link }}
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
