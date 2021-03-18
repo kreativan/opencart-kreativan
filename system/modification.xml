@@ -65,7 +65,6 @@
   <operation>
     <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
     <add position="before"><![CDATA[
-        $data['is_home'] = $this->request->get['route'] == 'common/home' ? true : false;
         $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
         $data['offcanvas_cart'] = $this->load->controller('kreativan/offcanvas_cart');
         $data['headerbar'] = $this->load->controller('kreativan/headerbar');
