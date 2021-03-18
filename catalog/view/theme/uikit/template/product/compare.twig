@@ -1,0 +1,90 @@
+{{ header }}
+<div id="product-compare" class="uk-section uk-section-small">
+  <div class="uk-container">
+
+    <div class="uk-margin-medium-bottom uk-text-center">
+
+      <ul class="uk-breadcrumb uk-margin-remove">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <h1 class="uk-margin-small">{{ heading_title }}</h1>
+      {% if description %}
+        <div class="uk-width-2-3@m uk-margin-auto">
+          {{ description }}
+        </div>
+      {% endif %}
+
+    </div>
+
+    {{ content_top }}
+
+    {% if column_left or column_right %}<div class="uk-grid" uk-grid>{% endif %}
+
+    {% if column_left %}
+    <div class="uk-width-medium@m">
+      {{ column_left }}
+    </div>
+    {% endif %}
+
+
+    {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+    <div id="main">
+      {% if products %}
+      <div class="uk-card uk-card-default uk-overflow-auto">
+        <table class="uk-table uk-table-divider">
+          <tbody>
+            <tr>
+              <td>{{ text_name }}</td>
+              {% for product in products %}
+                <td>
+                  <a href="{{ product.href }}">{{ product.name }}</a>
+                </td>
+              {% endfor %} </tr>
+            </tr>
+            <tr>
+            <td>{{ text_image }}</td>
+              {% for product in products %}
+              <td>
+                {% if product.thumb %} 
+                  <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /> 
+                {% endif %}
+              </td>
+              {% endfor %} </tr>
+            <tr>
+            <tr>
+              <td>{{ text_price }}</td>
+              {% for product in products %}
+              <td>{% if product.price %}
+                {% if not product.special %}
+                  {{ product.price }}
+                  {% else %} 
+                  <del>{{ product.price }}</del> 
+                  <div>{{ product.special }}</div>
+                  {% endif %}
+                {% endif %}
+              </td>
+              {% endfor %} 
+            <tr>
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+    {% if column_left or column_right %}</div>{% endif %}
+
+    {% if column_right %}
+    <div class="uk-width-medium@m">
+      {{ column_right }}
+    </div>
+    {% endif %}
+
+    <!-- grid end -->
+    {% if column_left or column_right %}</div>{% endif %}
+
+
+  </div>
+</div>
+{{ footer }} 

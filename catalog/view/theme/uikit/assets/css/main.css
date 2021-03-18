@@ -1,0 +1,29 @@
+body {
+  background: #f8f8f8;
+}
+
+#navbar {
+  background: white;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination > * {
+  flex: none;
+  padding-left: 0;
+  position: relative;
+}
+
+.pagination > * > * {
+  display: block;
+  padding: 5px 10px;
+  color: #999;
+  transition: color .1s ease-in-out;
+}

@@ -1,0 +1,30 @@
+<ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>
+{% for category in categories %}
+
+  {% if category.category_id == category_id %}
+  <li class="uk-active uk-open">
+      <a href="{{ category.href }}">{{ category.name }}</a>
+      {% if category.children %}
+        <ul class="uk-nav-sub">
+          {% for child in category.children %}
+            {% if child.category_id == child_id %}
+              <li class="uk-active">
+                <a href="{{ child.href }}">{{ child.name }}</a>
+              </li>
+            {% else %}
+              <li>
+                <a href="{{ child.href }}">{{ child.name }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+  </li>
+  {% else %}
+  <li>
+    <a href="{{ category.href }}">{{ category.name }}</a>
+  </li>
+  {% endif %}
+
+{% endfor %}
+</ul>
