@@ -90,6 +90,7 @@
   </operation>
 </file>
 
+<<<<<<< HEAD
 <!-- product controller -->
 <file path="catalog/controller/product/product.php">
   <!-- add controlers -->
@@ -130,4 +131,6 @@
   </operation>
 </file>
 
+=======
+>>>>>>> f38c094904a90879baaf56506118338d54bba164
 </modification>
