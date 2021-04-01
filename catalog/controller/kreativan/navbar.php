@@ -55,6 +55,7 @@ class ControllerKreativanNavbar extends Controller {
 		$data['search'] = $this->load->controller('common/search');
 		$data['cart'] = $this->load->controller('common/cart');
 
+    $data["show_search"] = (isset($this->request->get['route']) && $this->request->get['route'] == "product/search") ? 0 : 1;
 
     return $this->load->view('kreativan/navbar', $data);
 

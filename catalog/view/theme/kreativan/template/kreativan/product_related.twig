@@ -1,0 +1,77 @@
+<div class="uk-grid uk-child-width-1-4@m uk-grid-match" uk-grid>
+  {% for product in products %}
+  <div>
+    
+    <!-- card start -->
+    <div class="uk-card uk-card-small uk-card-hover uk-card-body uk-flex uk-flex-column uk-flex-between">
+
+      <div class="uk-card-media-top uk-text-center">
+        <a href="{{ product.href }}">
+          <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" />
+        </a>
+      </div>
+
+      <div class="uk-margin-small">
+        <h3 class="uk-card-title uk-link-heading uk-margin-small">
+          <a href="{{ product.href }}">{{ product.name }}</a>
+        </h3>
+
+        {% if product.rating %}
+        <div class="rating uk-margin-small">
+          {% for i in 1..5 %}
+            {% if product.rating < i %}
+              <span uk-icon="icon: star"></span>
+            {% else %}
+              <span class="uk-text-warning" uk-icon="icon: star"></span>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <p class="uk-margin-small uk-text-small">{{ product.description }}</p>
+      </div>
+
+      <div class="uk-flex uk-flex-between uk-flex-bottom">
+        <div class="price">
+          {% if product.price %}
+          {% if product.tax %}
+          <div class="price-tax uk-text-muted uk-text-small">{{ text_tax }} {{ product.tax }}</div>
+          {% endif %}
+          {% if not product.special %}
+          <span class="uk-text-bold">{{ product.price }}</span>
+          {% else %}
+          <div class="price-old uk-text-small"><del>{{ product.price }}</del></div>
+          <div class="price-new uk-text-bold uk-margin-remove">{{ product.special }}</div>
+          {% endif %}
+          {% endif %}
+        </div>
+        <div>
+          <button
+            type="button"
+            class="uk-icon-button"
+            uk-icon="heart"
+            title="{{ button_wishlist }}" uk-tooltip
+            onclick="wishlistAdd({{ product.product_id }})">
+          </button>
+          <button
+            type="button"
+            class="uk-icon-button"
+            uk-icon="copy"
+            title="{{ button_compare }}" uk-tooltip
+            onclick="compareAdd({{ product.product_id }})">
+          </button>
+          <button
+            type="button"
+            class="uk-icon-button"
+            uk-icon="cart"
+            title="{{ button_cart }}" uk-tooltip
+            onclick="addToCart({{ product.product_id }}, {{ product.minimum }})">
+          </button>
+        </div>
+      </div>
+
+    </div><!-- card end -->
+
+  </div>
+  {% endfor %}
+</div>

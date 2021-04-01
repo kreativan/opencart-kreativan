@@ -47,45 +47,23 @@
 
           <div class="form-group">
             <label class="col-sm-2 control-label">
-              Example Options
+              Compile Less
             </label>
             <div class="col-sm-10">
-              <select name="kreativan_option_example" class="form-control">
-                <option value="option_1" {% if kreativan_option_example == 'option_1' %}selected="selected"{% endif %}>
-                  Option 1
+              <select name="kreativan_less" class="form-control">
+                <option value="1" {% if kreativan_less == '1' %}selected="selected"{% endif %}>
+                  Enable
                 </option>
-                <option value="option_2" {% if kreativan_option_example == 'option_2' %}selected="selected"{% endif %}>
-                  Option 2
+                <option value="0" {% if kreativan_less == '0' %}selected="selected"{% endif %}>
+                  Disable
                 </option>
               </select>
             </div>
           </div>
 
-          <!-- submit -->
-          <div class="form-group">
-            <label class="col-sm-2 control-label"></label>
-            <div class="col-sm-10">
-              <button type="submit" form="kreativan-settings-form" class="btn btn-primary">
-                <i class="fa fa-save"></i> Save
-              </button>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-
-    <!--  Hero -->
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Hero</h3>
-      </div>
-      <div class="panel-body">
-        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="kreativan-hero-form" class="form-horizontal">
-
           <div class="form-group">
             <label class="col-sm-2 control-label">
-              Status
+              Hero Status
             </label>
             <div class="col-sm-10">
               <select name="kreativan_hero_status" class="form-control">
@@ -100,7 +78,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-banner">Banner</label>
+            <label class="col-sm-2 control-label" for="input-banner">Hero Banner</label>
             <div class="col-sm-10">
               <select name="kreativan_hero_banner" id="input-banner" class="form-control">
                 {% for banner in banners %}
@@ -118,7 +96,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label"></label>
             <div class="col-sm-10">
-              <button type="submit" form="kreativan-hero-form" class="btn btn-primary">
+              <button type="submit" form="kreativan-settings-form" class="btn btn-primary">
                 <i class="fa fa-save"></i> Save
               </button>
             </div>

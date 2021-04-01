@@ -1,0 +1,53 @@
+<div class="uk-slideshow" uk-slideshow="finite: true;ratio: 4:3;max-height: {{ height }};">
+
+  <ul class="uk-slideshow-items" uk-lightbox>
+    <li>
+      <div class="uk-height-1-1 uk-flex uk-flex-center uk-flex-middle">
+        <a href="{{ popup }}" ttile="{{ heading_title }}">
+          <img src="{{ main }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+        </a>  
+      </div>
+    </li>
+    {% for image in images %}
+      <li>
+        <div class="uk-height-1-1 uk-flex uk-flex-center uk-flex-middle">
+          <a href="{{ image.popup }}" ttile="{{ heading_title }}">
+            <img src="{{ image.main }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+          </a>  
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-hidden@s uk-margin-medium-top"></ul>
+
+  <div class="uk-width-3-4 uk-margin-auto uk-margin-medium-top uk-visible@s">
+    <div class="uk-slider" uk-slider="finite: true">
+      <div class="uk-position-relative">
+        <div class="uk-slider-container">
+          <ul class="uk-slider-items uk-child-width-1-4 uk-grid uk-grid-small uk-flex-center uk-text-center">
+            {% set i = 1 %}
+            <li uk-slideshow-item="0">
+              <div>
+                <img src="{{ main_thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+              </div>
+            </li>
+            {% for image in images %}
+            <li uk-slideshow-item="{{ i }}">
+              <div>
+                <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+              </div>
+            </li>
+            {% set i = i + 1 %}
+            {% endfor %}
+          </ul>
+          <div>
+            <a class="uk-position-center-left-out uk-position-small" uk-slidenav-previous uk-slider-item="previous"></a>
+            <a class="uk-position-center-right-out uk-position-small" uk-slidenav-next uk-slider-item="next"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

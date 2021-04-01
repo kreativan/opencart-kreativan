@@ -1,0 +1,48 @@
+
+@offcanvas-z-index:                             @global-z-index;
+
+@offcanvas-bar-width:                           270px;
+@offcanvas-bar-padding-vertical:                @global-margin;
+@offcanvas-bar-padding-horizontal:              @global-margin;
+@offcanvas-bar-background:                      white;
+@offcanvas-bar-color-mode:                      dark;
+
+@offcanvas-bar-width-m:                         350px;
+@offcanvas-bar-padding-vertical-m:              @global-medium-gutter;
+@offcanvas-bar-padding-horizontal-m:            @global-medium-gutter;
+
+@offcanvas-close-position:                      20px;
+@offcanvas-close-padding:                       5px;
+
+@offcanvas-overlay-background:                  rgba(0,0,0,0.1);
+
+
+/* ========================================================================
+   Component: Off-canvas
+========================================================================== */
+
+.tm-offcanvas-header {
+  margin: -@offcanvas-bar-padding-vertical-m;
+  margin-bottom: 0;
+  padding: 15px @offcanvas-bar-padding-vertical-m;
+  border-bottom: 1px solid @global-border;
+
+  @media(max-width: @breakpoint-medium) {
+    margin: -@offcanvas-bar-padding-vertical;
+    padding: 15px @offcanvas-bar-padding-vertical;
+  }
+  
+}
+
+#offcanvas-cart {
+
+  .uk-offcanvas-bar {
+    padding:0;
+  }
+
+  .tm-offcanvas-header {
+    margin: 0 !important;
+    padding: 15px !important;
+  }
+
+}

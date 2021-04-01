@@ -30,6 +30,11 @@
             'children' => array()
           );
           $kreativan[] = array(
+            'name'	   => 'Theme',
+            'href'     => $this->url->link('extension/theme/uikit', 'user_token=' . $this->session->data['user_token'] . '&store_id=0', true),
+            'children' => array()
+          );
+          $kreativan[] = array(
             'name'	   => 'Homepage Layout',
             'href'     => $this->url->link('design/layout/edit', 'user_token=' . $this->session->data['user_token'] . '&layout_id=1', true),
             'children' => array()
@@ -65,11 +70,10 @@
   <operation>
     <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
     <add position="before"><![CDATA[
-        $data['is_home'] = $this->request->get['route'] == 'common/home' ? true : false;
         $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
-        $data['offcanvas_cart'] = $this->load->controller('kreativan/offcanvas_cart');
         $data['headerbar'] = $this->load->controller('kreativan/headerbar');
         $data['navbar'] = $this->load->controller('kreativan/navbar');
+        $data['less'] = $this->load->controller('kreativan/less');
       ]]>
     </add>
   </operation>
@@ -83,6 +87,46 @@
         $data['hero'] = $this->load->controller('kreativan/hero');
       ]]>
     </add>
+  </operation>
+</file>
+
+<!-- product controller -->
+<file path="catalog/controller/product/product.php">
+  <!-- add controlers -->
+  <operation>
+    <search><![CDATA[ $this->response->setOutput($this->load->view('product/product', $data)); ]]></search>
+    <add position="before"><![CDATA[
+        $data['product_related'] = $this->load->controller('kreativan/product_related');
+        $data['product_options'] = $this->load->controller('kreativan/product_options');
+        $data['product_media'] = $this->load->controller('kreativan/product_media');
+        $data['product_review_form'] = $this->load->controller('kreativan/product_review_form');
+        $data['product_attributes'] = $this->load->controller('kreativan/product_attributes');
+        $data['product_reviews'] = $this->load->controller('kreativan/product_reviews');
+      ]]>
+    </add>
+  </operation>
+  <!-- add custom scripts -->
+  <operation>
+    <search><![CDATA[ public function index() { ]]></search>
+    <add position="after"><![CDATA[
+        $lang_code = $this->language->get('code');
+        $theme_dir = "catalog/view/theme/" . $this->config->get('config_theme') . "/";
+        $this->document->addStyle("{$theme_dir}vendor/flatpickr/flatpickr.min.css");
+        $this->document->addScript("{$theme_dir}vendor/flatpickr/flatpickr.min.js");
+        if($lang_code != "en") {
+          $this->document->addScript("{$theme_dir}vendor/flatpickr/l10n/{$lang_code}.js");
+        }
+      ]]>
+    </add>
+  </operation>
+  <!-- disable loading defailt oc css/js -->
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
   </operation>
 </file>
 

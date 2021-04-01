@@ -1,0 +1,91 @@
+{{ header }}
+
+<div id="breadcrumb" class="uk-background-muted">
+  <div class="uk-container">
+    <ul class="uk-breadcrumb uk-margin-remove">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div id="product-manufacturer" class="uk-section">
+  <div class="uk-container">
+
+    {{ content_top }}
+
+    {% if column_left or column_right %}<div class="uk-grid uk-grid-divider" uk-grid>{% endif %}
+
+    {% if column_left %}
+    <div class="uk-width-medium@m">
+      {{ column_left }}
+    </div>
+    {% endif %}
+
+    {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+
+    <div id="main">
+
+      <header class="uk-margin-medium">
+        <h1 class="uk-margin-small">{{ heading_title }}</h1>
+        {% if categories %}
+        <div>
+          <span class="uk-text-bold">{{ text_index }}</span>
+          {% for category in categories %}
+            <a href="index.php?route=product/manufacturer#{{ category.name }}" uk-scroll>
+            {{ category.name }}
+            </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </header>
+
+      {% if categories %}
+        {% for category in categories %}
+          <div class="uk-margin">
+            <h2 id="{{ category.name }}" class="uk-heading-line">
+              <span>{{ category.name }}</span>
+            </h2>
+            {% if category.manufacturer %}
+              <div class="uk-grid uk-grid-small uk-child-width-auto" uk-grid>
+                {% for manufacturer in category.manufacturer %}
+                <div>
+                  <div class="uk-text-center">
+                    {% if manufacturer.image %}
+                      <div class="uk-margin-small">
+                        <img src="{{ manufacturer.image }}" alt="{{ manufacturer.name }}" />
+                      </div>
+                    {% endif %}
+                    <a href="{{ manufacturer.href }}">
+                      {{ manufacturer.name }}
+                    </a>
+                  </div>
+                 </div> 
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>{{ text_empty }}</p>
+      {% endif %}
+
+    </div><!-- main end -->
+
+    {% if column_left or column_right %}</div>{% endif %}
+
+    {% if column_right %}
+    <div class="uk-width-medium@m">
+      {{ column_right }}
+    </div>
+    {% endif %}
+
+    <!-- grid end -->
+    {% if column_left or column_right %}</div>{% endif %}
+
+    {{ content_bottom }}
+
+  </div>
+</div>
+{{ footer }}

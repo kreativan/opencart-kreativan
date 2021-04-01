@@ -1,0 +1,112 @@
+<div class="tm-offcanvas-header uk-text-center uk-position-relative uk-background-muted">
+  <h3 class="uk-h4 uk-margin-remove">
+    <span class="uk-position-left uk-position-small" uk-icon="icon: cart; ratio: 1.2"></span>
+    <span>{{ text_items }}</span>
+  </h3>
+  <button class="uk-offcanvas-close uk-close uk-icon-button uk-position-center-right uk-position-small" uk-close type="button"></button>
+</div>
+
+<div>
+  {% if products or vouchers %}
+  <ul class="uk-list uk-list-divider uk-margin-remove uk-padding-small uk-padding-remove-vertical">
+    {% for product in products %}
+    <li class="uk-position-relative uk-padding-small uk-padding-remove-horizontal">
+      <div class="uk-grid uk-grid-small" uk-grid>
+
+        {% if product.thumb %}
+        <div class="uk-width-auto">
+          <div>
+            <a href="{{ product.href }}">
+              <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" />
+            </a>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="uk-width-expand">
+          <div>
+            <a class="uk-link-heading" href="{{ product.href }}">{{ product.name }}</a>
+            {% if product.option %}
+              <ul class="uk-list uk-list-collapse uk-margin-remove">
+                {% for option in product.option %}
+                <li>
+                  - <small>{{ option.name }} {{ option.value }}</small> 
+                </li>
+                {% endfor %}
+                {% if product.recurring %}
+                <li>
+                  - <small>{{ text_recurring }} {{ product.recurring }}</small>
+                </li>
+                {% endif %}
+              </ul> 
+            {% endif %}
+            <div>
+              <strong>{{ product.total }}</strong>
+              {% if product.quantity > 1 %} 
+                <span class="uk-text-small uk-text-muted">
+                  (x{{ product.quantity }}) 
+                </div>
+              {% endif %}
+            </span>
+            <button 
+              type="button" 
+              class="uk-icon-button uk-position-top-right uk-text-danger uk-position-small" 
+              uk-icon="trash"
+              onclick="removeFromCart({{ product.cart_id }})"
+            >
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </li>
+    {% endfor %}
+
+    {% for voucher in vouchers %}
+    <li class="uk-position-relative">
+      <p>{{ voucher.description }}</p>
+      <strong>{{ voucher.amount }}</strong>
+      <button 
+        type="button" 
+        class="uk-close uk-position-top-right uk-text-danger  uk-position-small" 
+        uk-close 
+        onclick="voucher.remove('{{ voucher.key }}');"
+      >
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <!--
+  <ul class="uk-list uk-list-striped">
+  {% for total in totals %}
+    <li class="uk-flex uk-flex-between">
+      <strong>{{ total.title }}</strong>
+      <span>{{ total.text }}</strong>
+    </li>
+    {% endfor %}
+  </ul>
+  -->
+  
+  <hr class="uk-margin-remove" />
+
+  <div class="uk-padding-small">
+    <div class="uk-grid uk-grid-small uk-child-width-1-1" uk-grid>
+    <div>
+      <a class="uk-button uk-button-default uk-width-1-1" href="{{ cart }}" title="{{ text_cart }}">
+        {{ text_cart }}
+      </a>
+    </div>
+
+    <div>
+      <a class="uk-button uk-button-primary uk-width-1-1" href="{{ checkout }}" title="{{ text_checkout }}">
+        {{ text_checkout }}
+      </a>
+    </div>
+  </div>
+  </div>
+
+  {% else %}
+  <div class="uk-padding uk-text-center">{{ text_empty }}</div>
+  {% endif %}
+</div>

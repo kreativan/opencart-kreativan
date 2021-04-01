@@ -1,0 +1,23 @@
+<a class="uk-accordion-title" href="#">
+  {{ heading_title }}
+  {% if voucher %}<span uk-icon="icon: check"></span>{% endif %}
+</a>
+
+<div class="uk-accordion-content">
+  <div class="uk-form-stacked">
+    <label class="uk-form-label">{{ entry_voucher }}</label>
+    <div class="uk-form-controls uk-grid uk-grid-small" uk-grid>
+      <div class="uk-width-expand@s">
+        <input class="uk-input" type="text" name="voucher" value="{{ voucher }}" placeholder="{{ entry_voucher }}" />
+      </div>
+      <div class="uk-width-auto@s">
+        <input 
+          type="submit" 
+          value="{{ button_voucher }}" 
+          class="uk-button uk-button-primary" 
+          onclick="applyVoucher()"
+        />
+      </div>
+    </div>
+  </div>
+</div>

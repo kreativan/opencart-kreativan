@@ -53,10 +53,10 @@ class ControllerKreativanSettings extends Controller {
 
 		// Form Data
 		// ========================================================================
-		if (isset($this->request->post['kreativan_option_example'])) {
-			$data['kreativan_option_example'] = $this->request->post['kreativan_option_example'];
+    if (isset($this->request->post['kreativan_less'])) {
+			$data['kreativan_less'] = $this->request->post['kreativan_less'];
 		} else {
-			$data['kreativan_option_example'] = $this->config->get('kreativan_option_example');
+			$data['kreativan_less'] = $this->config->get('kreativan_less');
 		}
 
 		// Hero

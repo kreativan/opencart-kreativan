@@ -3,6 +3,8 @@ class ControllerKreativanOffcanvasMenu extends Controller {
 
 	public function index() {
 
+    $this->load->language('common/menu');
+    
 		$this->load->model('catalog/category');
 
 		$this->load->model('catalog/product');
