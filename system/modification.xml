@@ -31,7 +31,7 @@
           );
           $kreativan[] = array(
             'name'	   => 'Theme',
-            'href'     => $this->url->link('extension/theme/uikit', 'user_token=' . $this->session->data['user_token'] . '&store_id=0', true),
+            'href'     => $this->url->link('extension/theme/kreativan', 'user_token=' . $this->session->data['user_token'] . '&store_id=0', true),
             'children' => array()
           );
           $kreativan[] = array(
@@ -70,10 +70,22 @@
   <operation>
     <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
     <add position="before"><![CDATA[
-        $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
+        $data['theme'] = $this->config->get('config_theme');
         $data['headerbar'] = $this->load->controller('kreativan/headerbar');
         $data['navbar'] = $this->load->controller('kreativan/navbar');
         $data['less'] = $this->load->controller('kreativan/less');
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- footer controller -->
+<file path="catalog/controller/common/footer.php">
+  <operation>
+    <search><![CDATA[ return $this->load->view('common/footer', $data); ]]></search>
+    <add position="before"><![CDATA[
+        $data['cart'] = $this->load->controller('common/cart');
+        $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
       ]]>
     </add>
   </operation>
@@ -90,7 +102,6 @@
   </operation>
 </file>
 
-<<<<<<< HEAD
 <!-- product controller -->
 <file path="catalog/controller/product/product.php">
   <!-- add controlers -->
@@ -131,6 +142,82 @@
   </operation>
 </file>
 
-=======
->>>>>>> f38c094904a90879baaf56506118338d54bba164
+<!-- compare -->
+<file path="catalog/controller/product/compare.php">
+  <operation>
+    <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
+    <add position="before"><![CDATA[
+        $json["count"] = isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- checkout / cart -->
+<file path="catalog/controller/checkout/cart.php">
+  <operation>
+    <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
+    <add position="before"><![CDATA[
+        $count = $this->cart->countProducts();
+        $json["count"] = (int) $count;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- account / wishlist -->
+<file path="catalog/controller/account/wishlist.php">
+  <operation>
+    <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
+    <add position="before"><![CDATA[
+        $json["count"] = isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- manufacturer -->
+<file path="catalog/controller/product/manufacturer.php">
+  <operation>
+    <search><![CDATA[ $data['categories'][$key]['manufacturer'][] = array( ]]></search>
+    <add position="before"><![CDATA[
+         $this->load->model('tool/image');
+      ]]>
+    </add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $data['categories'][$key]['manufacturer'][] = array( ]]></search>
+    <add position="after"><![CDATA[
+        "image" => $this->model_tool_image->resize($result["image"], 80, 80),
+      ]]>
+    </add>
+  </operation>
+</file>
+
+
+<!-- product controller -->
+<file path="catalog/controller/affiliate/register.php">
+  <operation>
+    <search><![CDATA[ public function index() { ]]></search>
+    <add position="after"><![CDATA[
+        $lang_code = $this->language->get('code');
+        $theme_dir = "catalog/view/theme/" . $this->config->get('config_theme') . "/";
+        $this->document->addStyle("{$theme_dir}vendor/flatpickr/flatpickr.min.css");
+        $this->document->addScript("{$theme_dir}vendor/flatpickr/flatpickr.min.js");
+        if($lang_code != "en") {
+          $this->document->addScript("{$theme_dir}vendor/flatpickr/l10n/{$lang_code}.js");
+        }
+      ]]>
+    </add>
+  </operation>
+   <!-- disable loading defailt oc css/js -->
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
 </modification>
