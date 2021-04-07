@@ -307,46 +307,53 @@
     <search><![CDATA[ private function html2rgb($color) { ]]></search>
       <add position="before"><![CDATA[
 
-        public function cropImage(int $width = 0, int $height = 0, $default = '') {
-          if (!$this->width || !$this->height) return;
-
-          $xpos = 0;
-          $ypos = 0;
-
-          $new_width = (int)($this->width);
-          $new_height = (int)($this->height);
-          $xpos = (int)(($width - $new_width) / 2);
-          $ypos = (int)(($height - $new_height) / 2);
+        function resizeWidth($width) {
 
           $image_old = $this->image;
-          $this->image = imagecreatetruecolor($width, $height);
+          $new_width = $width;
 
-          if ($this->mime == 'image/png') {
-            imagealphablending($this->image, false);
-            imagesavealpha($this->image, true);
-
-            $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-
-            imagecolortransparent($this->image, $background);
-
-          } else if ($this->mime == 'image/webp') {
-            imagealphablending($this->image, false);
-            imagesavealpha($this->image, true);
-
-            $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-
-            imagecolortransparent($this->image, $background);
+          // wide or tall
+          if($this->width > $this->height) {
+            $ratio = $this->width / $this->height;
+            $new_height = $width / $ratio;
           } else {
-            $background = imagecolorallocate($this->image, 255, 255, 255);
+            $ratio = $this->height / $this->width;
+            $new_height = $width * $ratio;
           }
 
-          imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+          $this->image = imagecreatetruecolor($new_width, $new_height);
 
-          imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->width, $this->height);
+          imagecopyresampled($this->image, $image_old, 0, 0, 0, 0, $new_width, $new_height, $this->width,  $this->height);
+
           imagedestroy($image_old);
 
-          $this->width = $width;
-          $this->height = $height;
+          $this->width = $new_width;
+          $this->height = $new_height;
+        }
+
+        function resizeHeight($height) {
+
+          $image_old = $this->image;
+          $new_height = $height;
+
+          // wide or tall
+          if($this->width > $this->height) {
+            $ratio = $this->width / $this->height;
+            $new_width = $height * $ratio;
+          } else {
+            $ratio = $this->height / $this->width;
+            $new_width = $height / $ratio;
+          }
+      
+
+          $this->image = imagecreatetruecolor($new_width, $new_height);
+
+          imagecopyresampled($this->image, $image_old, 0, 0, 0, 0, $new_width, $new_height, $this->width,  $this->height);
+
+          imagedestroy($image_old);
+
+          $this->width = $new_width;
+          $this->height = $new_height;
         }
 
       ]]>

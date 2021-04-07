@@ -46,7 +46,6 @@ class ControllerKreativanSettings extends Controller {
 		// ========================================================================
     $data["kreativan"] = [
       "Name" => "Ivan Milincic",
-      "Job" => "Web Developer",
       "Email" => "kreativan.dev@gmail.com",
       "Website" => "kreativan.dev",
     ];
@@ -59,21 +58,16 @@ class ControllerKreativanSettings extends Controller {
 			$data['kreativan_less'] = $this->config->get('kreativan_less');
 		}
 
-		// Hero
-		// ========================================================================
-		$this->load->model('design/banner');
-		$data['banners'] = $this->model_design_banner->getBanners();
-
-		if (isset($this->request->post['kreativan_hero_status'])) {
-			$data['kreativan_hero_status'] = $this->request->post['kreativan_hero_status'];
+    if (isset($this->request->post['kreativan_less_suffix'])) {
+			$data['kreativan_less_suffix'] = $this->request->post['kreativan_less_suffix'];
 		} else {
-			$data['kreativan_hero_status'] = $this->config->get('kreativan_hero_status');
+			$data['kreativan_less_suffix'] = $this->config->get('kreativan_less_suffix');
 		}
 
-		if (isset($this->request->post['kreativan_hero_banner'])) {
-			$data['kreativan_hero_banner'] = $this->request->post['kreativan_hero_banner'];
+    if (isset($this->request->post['kreativan_jquery'])) {
+			$data['kreativan_jquery'] = $this->request->post['kreativan_jquery'];
 		} else {
-			$data['kreativan_hero_banner'] = $this->config->get('kreativan_hero_banner');
+			$data['kreativan_jquery'] = $this->config->get('kreativan_jquery');
 		}
 
 		// Controllers

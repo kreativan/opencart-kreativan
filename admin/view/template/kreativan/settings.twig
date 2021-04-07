@@ -63,31 +63,24 @@
 
           <div class="form-group">
             <label class="col-sm-2 control-label">
-              Hero Status
+              Compiled CSS file suffix
+              <span data-toggle="tooltip" title="Used for browser cache busting"></span>
             </label>
             <div class="col-sm-10">
-              <select name="kreativan_hero_status" class="form-control">
-                <option value="yes" {% if kreativan_hero_status == 'yes' %}selected="selected"{% endif %}>
-                  Enable
-                </option>
-                <option value="no" {% if kreativan_hero_status == 'no' %}selected="selected"{% endif %}>
-                  Disabled
-                </option>
-            </select>
+              <input type="text" name="kreativan_less_suffix" value="{{ kreativan_less_suffix }}" class="form-control" />
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-banner">Hero Banner</label>
-            <div class="col-sm-10">
-              <select name="kreativan_hero_banner" id="input-banner" class="form-control">
-                {% for banner in banners %}
-                {% if banner.banner_id == kreativan_hero_banner %}
-                <option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
-                {% else %}
-                <option value="{{ banner.banner_id }}">{{ banner.name }}</option>
-                {% endif %}
-                {% endfor %}
+            <label class="col-sm-2 control-label">Load jQuery</label>
+            <div class="col-sm-10 text-uppercase">
+              <select name="kreativan_jquery" class="form-control">
+                <option value="1" {% if kreativan_jquery == '1' %}selected="selected"{% endif %}>
+                  Yes
+                </option>
+                <option value="0" {% if kreativan_jquery == '0' %}selected="selected"{% endif %}>
+                  No
+                </option>
               </select>
             </div>
           </div>
