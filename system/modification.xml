@@ -307,7 +307,7 @@
     <search><![CDATA[ private function html2rgb($color) { ]]></search>
       <add position="before"><![CDATA[
 
-        function resizeWidth($width) {
+        public function resizeWidth($width) {
 
           $image_old = $this->image;
           $new_width = $width;
@@ -331,7 +331,7 @@
           $this->height = $new_height;
         }
 
-        function resizeHeight($height) {
+        public function resizeHeight($height) {
 
           $image_old = $this->image;
           $new_height = $height;

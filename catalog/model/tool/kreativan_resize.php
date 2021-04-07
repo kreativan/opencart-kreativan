@@ -2,6 +2,9 @@
 
 class ModelToolKreativanResize extends Model {
 
+  //
+  //  Width
+  //
   public function width($filename, $width) {
     if (!is_file(DIR_IMAGE . $filename) || substr(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), 0, strlen(DIR_IMAGE)) != str_replace('\\', '/', DIR_IMAGE)) {
       return;
@@ -49,6 +52,9 @@ class ModelToolKreativanResize extends Model {
     }
   }
 
+  //
+  //  Height
+  //
   public function height($filename, $height) {
     if (!is_file(DIR_IMAGE . $filename) || substr(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), 0, strlen(DIR_IMAGE)) != str_replace('\\', '/', DIR_IMAGE)) {
       return;
