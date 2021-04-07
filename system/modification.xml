@@ -35,10 +35,16 @@
             'children' => array()
           );
           $kreativan[] = array(
+            'name'	   => 'Hero',
+            'href'     => $this->url->link('kreativan/hero', 'user_token=' . $this->session->data['user_token'], true),
+            'children' => array()
+          );
+          $kreativan[] = array(
             'name'	   => 'Homepage Layout',
             'href'     => $this->url->link('design/layout/edit', 'user_token=' . $this->session->data['user_token'] . '&layout_id=1', true),
             'children' => array()
           );
+          // get module from db and create shortcut
           $kreativan_module_db = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `code` = 'kreativan' ORDER BY `name`");
           if($kreativan_module_db->num_rows > 0) {
             $kreativan_module_id = $kreativan_module_db->row['module_id'];
@@ -70,10 +76,31 @@
   <operation>
     <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
     <add position="before"><![CDATA[
+
+        $legacy_array = [
+          "checkout/checkout", 
+          "affiliate/register",
+          "account/edit",
+          "account/address/edit",
+          "account/affiliate/add",
+          "account/register",
+        ];
+
+        $flatpickr_array = [
+          "product/product",
+          "account/return/add",
+          "affiliate/register",
+          "account/edit",
+        ];
+
+        $data['legacy'] = isset($_GET["route"]) && in_array($_GET["route"], $legacy_array) ? true : false;
         $data['theme'] = $this->config->get('config_theme');
         $data['headerbar'] = $this->load->controller('kreativan/headerbar');
         $data['navbar'] = $this->load->controller('kreativan/navbar');
         $data['less'] = $this->load->controller('kreativan/less');
+        $data['flatpickr'] = isset($_GET["route"]) && in_array($_GET["route"], $flatpickr_array) ? true : false;
+        $data['kreativan_jquery'] = $this->config->get('kreativan_jquery');
+        
       ]]>
     </add>
   </operation>
@@ -117,20 +144,6 @@
       ]]>
     </add>
   </operation>
-  <!-- add custom scripts -->
-  <operation>
-    <search><![CDATA[ public function index() { ]]></search>
-    <add position="after"><![CDATA[
-        $lang_code = $this->language->get('code');
-        $theme_dir = "catalog/view/theme/" . $this->config->get('config_theme') . "/";
-        $this->document->addStyle("{$theme_dir}vendor/flatpickr/flatpickr.min.css");
-        $this->document->addScript("{$theme_dir}vendor/flatpickr/flatpickr.min.js");
-        if($lang_code != "en") {
-          $this->document->addScript("{$theme_dir}vendor/flatpickr/l10n/{$lang_code}.js");
-        }
-      ]]>
-    </add>
-  </operation>
   <!-- disable loading defailt oc css/js -->
   <operation>
     <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js'); ]]></search>
@@ -169,8 +182,10 @@
 <file path="catalog/controller/account/wishlist.php">
   <operation>
     <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
-    <add position="before"><![CDATA[
-        $json["count"] = isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0;
+    <add position="after"><![CDATA[
+        if($this->customer->isLogged()) {
+          $json["count"] = $this->model_account_wishlist->getTotalWishlist();
+        }
       ]]>
     </add>
   </operation>
@@ -194,22 +209,8 @@
   </operation>
 </file>
 
-
-<!-- product controller -->
-<file path="catalog/controller/affiliate/register.php">
-  <operation>
-    <search><![CDATA[ public function index() { ]]></search>
-    <add position="after"><![CDATA[
-        $lang_code = $this->language->get('code');
-        $theme_dir = "catalog/view/theme/" . $this->config->get('config_theme') . "/";
-        $this->document->addStyle("{$theme_dir}vendor/flatpickr/flatpickr.min.css");
-        $this->document->addScript("{$theme_dir}vendor/flatpickr/flatpickr.min.js");
-        if($lang_code != "en") {
-          $this->document->addScript("{$theme_dir}vendor/flatpickr/l10n/{$lang_code}.js");
-        }
-      ]]>
-    </add>
-  </operation>
+<!-- checkout controller -->
+<file path="catalog/controller/checkout/checkout.php">
    <!-- disable loading defailt oc css/js -->
   <operation>
     <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
@@ -220,4 +221,137 @@
     <add position="after"><![CDATA[ */ ]]></add>
   </operation>
 </file>
+
+<!-- affiliate controller -->
+<file path="catalog/controller/affiliate/register.php">
+   <!-- disable loading defailt oc css/js -->
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- returns -->
+<file path="catalog/controller/account/return.php">
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- module / banner -->
+<file path="catalog/controller/extension/module/banner.php">
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- module / carousel -->
+<file path="catalog/controller/extension/module/carousel.php">
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- module / information -->
+<file path="catalog/controller/extension/module/information.php">
+  <operation>
+    <search><![CDATA[ $data['informations'][] = array( ]]></search>
+    <add position="after"><![CDATA[
+        'id' => $result['information_id'],
+      ]]>
+    </add>
+  </operation>
+  <operation>
+    <search><![CDATA[ return $this->load->view('extension/module/information', $data); ]]></search>
+    <add position="before"><![CDATA[
+        $data['page_id'] = isset($_GET['information_id']) ? $_GET['information_id'] : false;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- module / slideshow -->
+<file path="catalog/controller/extension/module/slideshow.php">
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- CUSTOM IMAGE CROP FUNCTION / METHOD -->
+<file path="system/library/image.php">
+  <operation>
+    <search><![CDATA[ private function html2rgb($color) { ]]></search>
+      <add position="before"><![CDATA[
+
+        public function cropImage(int $width = 0, int $height = 0, $default = '') {
+          if (!$this->width || !$this->height) return;
+
+          $xpos = 0;
+          $ypos = 0;
+
+          $new_width = (int)($this->width);
+          $new_height = (int)($this->height);
+          $xpos = (int)(($width - $new_width) / 2);
+          $ypos = (int)(($height - $new_height) / 2);
+
+          $image_old = $this->image;
+          $this->image = imagecreatetruecolor($width, $height);
+
+          if ($this->mime == 'image/png') {
+            imagealphablending($this->image, false);
+            imagesavealpha($this->image, true);
+
+            $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+
+            imagecolortransparent($this->image, $background);
+
+          } else if ($this->mime == 'image/webp') {
+            imagealphablending($this->image, false);
+            imagesavealpha($this->image, true);
+
+            $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+
+            imagecolortransparent($this->image, $background);
+          } else {
+            $background = imagecolorallocate($this->image, 255, 255, 255);
+          }
+
+          imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+
+          imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->width, $this->height);
+          imagedestroy($image_old);
+
+          $this->width = $width;
+          $this->height = $height;
+        }
+
+      ]]>
+    </add>
+  </operation>
+</file>
+
 </modification>
