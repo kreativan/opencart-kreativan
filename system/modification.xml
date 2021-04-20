@@ -93,8 +93,12 @@
           "account/edit",
         ];
 
+        $get_route = isset($_GET["route"]) ? $_GET["route"] : "";
+
+        $data['css_id'] = str_replace("/", "-", $get_route);
         $data['legacy'] = isset($_GET["route"]) && in_array($_GET["route"], $legacy_array) ? true : false;
         $data['theme'] = $this->config->get('config_theme');
+        $data['mobile_header'] = $this->load->controller('kreativan/mobile_header');
         $data['headerbar'] = $this->load->controller('kreativan/headerbar');
         $data['navbar'] = $this->load->controller('kreativan/navbar');
         $data['less'] = $this->load->controller('kreativan/less');
@@ -113,6 +117,7 @@
     <add position="before"><![CDATA[
         $data['cart'] = $this->load->controller('common/cart');
         $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
+        $data['search'] = $this->load->controller('common/search');
       ]]>
     </add>
   </operation>
@@ -329,6 +334,7 @@
 
           $this->width = $new_width;
           $this->height = $new_height;
+
         }
 
         public function resizeHeight($height) {
@@ -357,6 +363,58 @@
         }
 
       ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- ##################### ADMIN STUFF ###################### -->
+
+<!-- add dragula to layouts -->
+<file path="admin/controller/design/layout.php">
+  <operation>
+    <search><![CDATA[ public function edit() { ]]></search>
+    <add position="after"><![CDATA[
+      $this->document->addScript('../vendor/dragula/dragula.min.js');
+      $this->document->addStyle('../vendor/dragula/dragula.min.css');
+      $this->document->addScript('../vendor/dragula/layout.js');
+      $this->document->addStyle('../vendor/dragula/layout.css');
+    ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- product save redirect to the same edit page -->
+<file path="admin/controller/catalog/product.php">
+  <operation>
+    <search><![CDATA[ $this->response->redirect($this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . $url, true)); ]]></search>
+    <add position="replace"><![CDATA[
+        $redirect_route = "catalog/product";
+        $redirect_url = "user_token={$this->session->data['user_token']}{$url}";
+        if($this->request->get['route'] == "catalog/product/edit") {
+          $product_id = $this->request->get['product_id'];
+          $redirect_route = "catalog/product/edit";
+          $redirect_url = "user_token={$this->session->data['user_token']}&product_id={$product_id}";
+        }
+        $this->response->redirect($this->url->link($redirect_route, $redirect_url . $url, true));
+    ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- layout save redirect to the same edit page -->
+<file path="admin/controller/design/layout.php">
+  <operation>
+    <search><![CDATA[ $this->response->redirect($this->url->link('design/layout', 'user_token=' . $this->session->data['user_token'] . $url, true)); ]]></search>
+    <add position="replace"><![CDATA[
+        $redirect_route = "design/layout";
+        $redirect_url = "user_token={$this->session->data['user_token']}{$url}";
+        if($this->request->get['route'] == "design/layout/edit") {
+          $layout_id = $this->request->get['layout_id'];
+          $redirect_route = "design/layout/edit";
+          $redirect_url = "user_token={$this->session->data['user_token']}&layout_id={$layout_id}";
+        }
+        $this->response->redirect($this->url->link($redirect_route, $redirect_url . $url, true));
+    ]]>
     </add>
   </operation>
 </file>
