@@ -3,6 +3,8 @@ This project is complete opencart front-end rebuild/rewrite with uikit front-end
 
 This project is suitable for building custom opencart shops and is not compatible wtih 3rd party themes and bootstrap dependent modules... Don't use it on production websites please!!! If you are curious, test it, and use it on your own risk...
 
+Motivation for this projects was to learn a bit of opencart, so complete front-end rewrite sounded like a good way to do it :). And also, opencart need some modernization as it still runs on bootstrap 3 and jquery...
+
 ## Features
 
 * All new front-end
@@ -14,8 +16,9 @@ This project is suitable for building custom opencart shops and is not compatibl
 * Popup - Display modal popup on page load
 * Resize Model Tool - Resize images and keep aspect ration
 * Less Parser - compile less files
-* Dynamic multi0-level offcanvas category menu that can be used for mobile and desktop
+* Dynamic multi-level offcanvas category menu that can be used for mobile and desktop
 * Dynamic global and user menu for mobile devices
+* AiO - All in One Products display module
 
 
 ## How to install
