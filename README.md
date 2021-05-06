@@ -5,14 +5,16 @@ This project is suitable for building custom opencart shops and is not compatibl
 
 ## Features
 
+* All new front-end
+* No jQuery & no Old Bootstrap
 * UIkit Framework
 * Custom admin menu
 * Custom Settings
-* Hero - Uikit slideshow on homepage based with oc banners
+* Hero - Uikit slideshow on homepage based on opencart banners
 * Popup - Display modal popup on page load
 * Resize Model Tool - Resize images and keep aspect ration
 * Less Parser - compile less files
-* Dynamic multi0level offcanvas category menu that can be used for mobile and desktop
+* Dynamic multi0-level offcanvas category menu that can be used for mobile and desktop
 * Dynamic global and user menu for mobile devices
 
 
