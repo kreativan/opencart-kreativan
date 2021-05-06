@@ -1,0 +1,49 @@
+<div class="uk-grid uk-grid-small uk-flex-middle" uk-grid>
+
+  <div class="uk-width-1-3">
+    <ul class="uk-subnav uk-subnav-divider uk-margin-remove-top uk-margin-remove-bottom">
+      <li>
+        <a href="tel: {{ telephone }}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
+          </svg>
+          {{ telephone }}
+        </a>
+      </li>
+      {% if kreativan.multilang %}
+        <li>{{ language }}</li>
+      {% endif %}
+      {% if kreativan.multicurency %}
+        <li>{{ currency }}</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="uk-width-1-3">
+    <ul class="uk-subnav uk-subnav-divider uk-margin-remove-top uk-margin-remove-bottom uk-flex-center">
+      {% if not logged %}
+        <li><a href="{{ login }}">{{ text_login }}</a></li>
+        <li><a href="{{ register }}">{{ text_register }}</a></li>
+      {% else %}
+        <li><span>{{ hello }}</span></li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="uk-width-1-3">
+    <ul class="uk-subnav uk-margin-remove-top uk-margin-remove-bottom uk-flex-right">
+      {% for key, link in social_links %}
+        <li>
+          <a href="{{ link }}" 
+            class="uk-icon" 
+            target="_blank"
+            rel="nofollow"
+            uk-icon="icon:{{ key }}; ratio: 0.9">
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+</div>

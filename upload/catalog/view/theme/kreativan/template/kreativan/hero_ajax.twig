@@ -1,0 +1,65 @@
+{% if type == "mobile" and hero.banner_mobile %}
+
+<div class="uk-slideshow" uk-slideshow="animation: slide;{{ ratio_mobile }}">
+  <div class="uk-position-relative uk-visible-toggle uk-light">
+
+    <ul class="uk-slideshow-items">
+      {% for item in items_mobile %}
+        <li>
+          <img 
+            class="uk-cover"
+            srcset="{{ item.image_s }} 480w, {{ item.image_m }} 640w, {{ item.image_l }} 1024w"
+            sizes="(max-width: 480px) 480w, (max-width: 640px) 640w, (max-width: 1024px) 1024w"
+            src="{{ item.image_l }}"
+            alt="{{ item.title }}" 
+            loading="lazy"
+            uk-cover
+          />
+          {% if item.link %}
+            <a href="{{ item.link }}" title="{{ item.title }}" class="uk-position-cover"></a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+    <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin uk-position-bottom"></ul>
+
+  </div>
+</div>
+
+{% else %}
+
+<div class="uk-slideshow" uk-slideshow="animation: slide;{{ ratio }}">
+  <div class="uk-position-relative uk-visible-toggle uk-light">
+
+    <ul class="uk-slideshow-items">
+      {% for item in items %}
+        <li>
+          <img 
+            class="uk-cover"
+            srcset="{{ item.image_s }} 600w, {{ item.image_m }} 1024w, {{ item.image_l }} 1920w"
+            sizes="(max-width: 600px) 600w, (max-width: 1024px) 1024w, (min-width: 1024px) 1920w"
+            src="{{ item.image_l }}"
+            alt="{{ item.title }}" 
+            loading="lazy"
+            uk-cover
+          />
+          {% if item.link %}
+            <a href="{{ item.link }}" title="{{ item.title }}" class="uk-position-cover"></a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+    <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin uk-position-bottom"></ul>
+
+  </div>
+</div>
+
+{% endif %}

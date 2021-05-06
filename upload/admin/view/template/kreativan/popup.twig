@@ -1,0 +1,110 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<form action="{{ action }}" method="post" enctype="multipart/form-data" id="popup-form" class="form-horizontal">
+
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="popup-form" class="btn btn-primary">
+          <i class="fa fa-save"></i> Save
+        </button>
+        <a href="{{ cleanup_db_url }}" class="btn btn-danger" data-toggle="tooltip" title="{{ text_cleanup_db }}">
+          <i class="fa fa-trash"></i>
+        </a>
+      </div>
+      <h1>Popup</h1>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Options</h3>
+      </div>
+      <div class="panel-body">
+
+        <div class="tab-pane">
+          <ul class="nav nav-tabs" id="language">
+            {% for language in languages %}
+            <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+            {% endfor %}
+          </ul>
+
+          <div class="tab-content">
+            {% for language in languages %}
+            <div class="tab-pane" id="language{{ language.language_id }}">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-title{{ language.language_id }}">Title</label>
+                <div class="col-sm-10">
+                  <input type="text" name="popup[{{ language.language_id }}][title]" placeholder="Title" id="input-heading{{ language.language_id }}" value="{{ popup[language.language_id] ? popup[language.language_id].title }}" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-description{{ language.language_id }}">Description</label>
+                <div class="col-sm-10">
+                  <textarea name="popup[{{ language.language_id }}][description]" placeholder="Description" id="input-description{{ language.language_id }}" data-toggle="summernote" class="form-control">{{ popup[language.language_id] ? popup[language.language_id].description }}</textarea>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <hr style="margin: 0;" />
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-image">Image</label>
+          <div class="col-sm-10">
+            <a href="" id="thumb-image" data-toggle="image" class="img-thumbnail text-center" style="min-width:160px;min-height:40px;background: #f8f8f8">
+              <img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" />
+            </a>
+            <input type="hidden" name="popup[image]" value="{{ popup.image }}" id="input-image" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-status">Status</label>
+          <div class="col-sm-10">
+            <select name="popup[status]" id="input-status" class="form-control">
+              {% if popup.status and popup.status != "debug" %}
+              <option value="1" selected="selected">{{ text_enabled }}</option>
+              <option value="0">{{ text_disabled }}</option>
+              <option value="debug">Debug</option>
+              {% elseif popup.status and popup.status == "debug" %}
+              <option value="1">{{ text_enabled }}</option>
+              <option value="0">{{ text_disabled }}</option>
+              <option value="debug" selected="selected">Debug</option>
+              {% else %}
+              <option value="1">{{ text_enabled }}</option>
+              <option value="0" selected="selected">{{ text_disabled }}</option>
+              <option value="debug">Debug</option>
+              {% endif %}
+            </select>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+    
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+  <script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script>
+</form>
+</div>
+{{ footer }}

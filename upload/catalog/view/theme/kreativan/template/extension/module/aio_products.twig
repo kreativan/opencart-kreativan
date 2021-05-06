@@ -1,0 +1,180 @@
+<div class="uk-grid uk-child-width-expand@m" uk-grid>
+
+  {% if latest  %}
+  <div>
+    <h3 class="uk-margin-small">{{ text_latest }}</h3>
+    
+    <ul class="uk-list uk-margin-remove">
+      {% for product in latest %}
+        <li class="uk-flex uk-flex-middle uk-margin">
+
+          <div class="tm-border uk-padding-small uk-margin-small-right">
+            <img src="{{ product.thumb }}" alt="{{ product.name }}" />
+          </div>
+
+          <div>
+            <h3 class="uk-h5 uk-margin-remove">{{ product.name }}</h3>
+
+            <div class="rating uk-margin-remove">
+              {% for i in 1..5 %}
+                {% if product.rating < i %}
+                  <span uk-icon="icon: star;ratio: 0.8"></span>
+                {% else %}
+                  <span class="uk-text-warning" uk-icon="icon: star;ratio: 0.8"></span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="price uk-margin-small-top">
+              {% if product.price %}
+                {% if not product.special %}
+                <span class="uk-text-bold">{{ product.price }}</span>
+                {% else %}
+                <span class="price-old uk-text-small">{{ product.price }}</span>
+                <span class="price-new uk-text-bold uk-margin-remove">{{ product.special }}</span>
+                {% endif %}
+              {% endif %}
+            </div>
+            
+          </div>
+
+        </li>
+      {% endfor %}
+    </ul>
+    
+  </div>
+  {% endif %}
+
+  {% if bestseller  %}
+  <div>
+    <h3>{{ text_bestsellers }}</h3>
+
+    <ul class="uk-list uk-margin-remove">
+      {% for product in bestseller %}
+        <li class="uk-flex uk-flex-middle uk-margin">
+
+          <div class="tm-border uk-padding-small uk-margin-small-right">
+            <img src="{{ product.thumb }}" alt="{{ product.name }}" />
+          </div>
+
+          <div>
+            <h3 class="uk-h5 uk-margin-remove">{{ product.name }}</h3>
+
+            <div class="rating uk-margin-remove">
+              {% for i in 1..5 %}
+                {% if product.rating < i %}
+                  <span uk-icon="icon: star;ratio: 0.9"></span>
+                {% else %}
+                  <span class="uk-text-warning" uk-icon="icon: star;ratio: 0.9"></span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="price uk-margin-small-top">
+              {% if product.price %}
+                {% if not product.special %}
+                <span class="uk-text-bold">{{ product.price }}</span>
+                {% else %}
+                <span class="price-old uk-text-small">{{ product.price }}</span>
+                <span class="price-new uk-text-bold uk-margin-remove">{{ product.special }}</span>
+                {% endif %}
+              {% endif %}
+            </div>
+
+          </div>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if special  %}
+  <div>
+    <h3>{{ text_special }}</h3>
+
+    <ul class="uk-list uk-margin-remove">
+      {% for product in special %}
+        <li class="uk-flex uk-flex-middle uk-margin">
+
+          <div class="tm-border uk-padding-small uk-margin-small-right">
+            <img src="{{ product.thumb }}" alt="{{ product.name }}" />
+          </div>
+
+          <div>
+            <h3 class="uk-h5 uk-margin-remove">{{ product.name }}</h3>
+
+            <div class="rating uk-margin-remove">
+              {% for i in 1..5 %}
+                {% if product.rating < i %}
+                  <span uk-icon="icon: star;ratio: 0.9"></span>
+                {% else %}
+                  <span class="uk-text-warning" uk-icon="icon: star;ratio: 0.9"></span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="price uk-margin-small-top">
+              {% if product.price %}
+                {% if not product.special %}
+                <span class="uk-text-bold">{{ product.price }}</span>
+                {% else %}
+                <span class="price-new uk-text-bold uk-margin-remove">{{ product.special }}</span>
+                <div class="price-old uk-text-small uk-text-muted">{{ product.price }}</div>
+                {% endif %}
+              {% endif %}
+            </div>
+
+          </div>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if popular  %}
+  <div>
+    <h3>{{ text_popular }}</h3>
+
+    <ul class="uk-list uk-margin-remove">
+      {% for product in popular %}
+        <li class="uk-flex uk-flex-middle uk-margin">
+
+          <div class="tm-border uk-padding-small uk-margin-small-right">
+            <img src="{{ product.thumb }}" alt="{{ product.name }}" />
+          </div>
+
+          <div>
+            <h3 class="uk-h5 uk-margin-remove">{{ product.name }}</h3>
+
+            <div class="rating uk-margin-remove">
+              {% for i in 1..5 %}
+                {% if product.rating < i %}
+                  <span uk-icon="icon: star;ratio: 0.9"></span>
+                {% else %}
+                  <span class="uk-text-warning" uk-icon="icon: star;ratio: 0.9"></span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="price uk-margin-small-top">
+              {% if product.price %}
+                {% if not product.special %}
+                <span class="uk-text-bold">{{ product.price }}</span>
+                {% else %}
+                <span class="price-new uk-text-bold uk-margin-remove">{{ product.special }}</span>
+                <div class="price-old uk-text-small uk-text-muted">{{ product.price }}</div>
+                {% endif %}
+              {% endif %}
+            </div>
+
+          </div>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+</div>

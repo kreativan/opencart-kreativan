@@ -1,0 +1,58 @@
+<div class="tm-panel uk-padding">
+
+  {% if error_warning %}
+    <div class="uk-alert uk-alert-warning">
+      <span uk-icon="icon: warning"></span>
+      {{ error_warning }}
+      <a class="uk-alert-close uk-close" uk-close></a>
+    </div>
+  {% endif %}
+
+  {% if payment_methods %}
+    <h4>{{ text_payment_method }}</h4>
+    <ul class="uk-list uk-list-divider">
+      {% for payment_method in payment_methods %}
+      <li>
+        <div class="radio">
+          <label>
+            {% if payment_method.code == code or not code %}
+              {% set code = payment_method.code %}
+              <input class="uk-radio" type="radio" name="payment_method" value="{{ payment_method.code }}" checked="checked" />
+            {% else %}
+              <input  class="uk-radio" type="radio" name="payment_method" value="{{ payment_method.code }}" />
+            {% endif %}
+              <span class="uk-margin-small-left">{{ payment_method.title }}</span>
+            {% if payment_method.terms %}
+              ({{ payment_method.terms }})
+            {% endif %} 
+          </label>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>  
+  {% endif %}
+
+  <div class="uk-form-stacked">
+    <label class="uk-form-label">{{ text_comments }}</label>
+    <textarea class="uk-textarea" name="comment" rows="5">{{ comment }}</textarea>
+  </div>
+
+  {% if text_agree %}
+  <div class="buttons uk-margin-top uk-text-right">
+    {{ text_agree }}
+    {% if agree %}
+    <input class="uk-checkbox" type="checkbox" name="agree" value="1" checked="checked" />
+    {% else %}
+    <input class="uk-checkbox" type="checkbox" name="agree" value="1" />
+    {% endif %}
+    </div>
+    <div class="uk-margin-top uk-text-right">
+      <input type="button" value="{{ button_continue }}" id="button-payment-method" data-loading-text="{{ text_loading }}" class="uk-button uk-button-primary" />
+    </div>
+  </div>
+  {% else %}
+  <div class="buttons uk-margin-top uk-text-right">
+    <input type="button" value="{{ button_continue }}" id="button-payment-method" data-loading-text="{{ text_loading }}" class="uk-button uk-button-primary" />
+  </div>
+  {% endif %} 
+</div>

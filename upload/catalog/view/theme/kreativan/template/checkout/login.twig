@@ -1,0 +1,59 @@
+<div class="tm-panel uk-padding">
+<div class="uk-grid uk-grid-divider" uk-grid>
+
+  <div class="uk-width-expand@m">
+    <div>
+      <h2>{{ text_new_customer }}</h2>
+      <p>{{ text_checkout }}</p>
+      <div>
+        <label class="uk-display-block" style="margin-bottom: 5px;">
+          <input class="uk-radio" 
+            type="radio" name="account" 
+            value="register" 
+            {% if account == 'register' or not account %}checked="checked"{% endif %} 
+          />
+           <span style="margin-left:5px;">{{ text_register }}</span>
+        </label>
+        <label class="uk-display-block" style="margin-bottom: 5px;">
+          <input class="uk-radio" 
+            type="radio" 
+            name="account" 
+            value="guest" 
+            {% if account == 'guest' %}checked="checked"{% endif %}  
+          />
+          <span style="margin-left:5px;">{{ text_guest }}</span>
+        </label>
+      </div>
+      <p>{{ text_register_account }}</p>
+      <input 
+        type="button" 
+        value="{{ button_continue }}" 
+        id="button-account" 
+        class="uk-button uk-button-primary" 
+      />
+    </div>
+  </div>
+
+  <div class="uk-width-expand@m">
+    <div>
+      <h2>{{ text_returning_customer }}</h2>
+      <p>{{ text_i_am_returning_customer }}</p>
+      <div class="uk-margin uk-form-stacked">
+        <label class="uk-form-label">{{ entry_email }}</label>
+        <input type="text" name="email" value="" placeholder="{{ entry_email }}" class="uk-input" />
+      </div>
+      <div class="uk-margin uk-form-stacked">
+        <label class="uk-form-label">{{ entry_password }}</label>
+        <input type="password" name="password" value="" placeholder="{{ entry_password }}" class="uk-input" />
+        <div class="uk-margin-small">
+          <a href="{{ forgotten }}">{{ text_forgotten }}</a>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input type="button" value="{{ button_login }}" id="button-login" class="uk-button uk-button-primary" />
+      </div>
+    </div>
+  </div>  
+
+</div>
+</div>

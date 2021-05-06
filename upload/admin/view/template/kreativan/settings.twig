@@ -1,0 +1,145 @@
+{{ header }}{{ column_left }}
+
+<div id="content">
+
+<form action="{{ action }}" method="post" enctype="multipart/form-data" id="kreativan-settings-form" class="form-horizontal">
+
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="kreativan-settings-form" class="btn btn-primary">
+          <i class="fa fa-save"></i> Save
+        </button>
+        <a href="{{ store_settings }}" class="btn btn-default">
+          <i class="fa fa-cog"></i>
+          Store
+        </a>
+        <a href="{{ cleanup_db_url }}" class="btn btn-danger" data-toggle="tooltip" title="{{ text_cleanup_db }}">
+          <i class="fa fa-trash"></i>
+        </a>
+      </div>
+      <h1>Framework Settings</h1>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+
+    <!-- Settings -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Settings</h3>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            Multi-language
+          </label>
+          <div class="col-sm-10">
+            <select name="kreativan[multilang]" class="form-control">
+              <option value="1" {% if kreativan.multilang == '1' %}selected="selected"{% endif %}>
+                Enable
+              </option>
+              <option value="0" {% if kreativan.multilang == '0' %}selected="selected"{% endif %}>
+                Disable
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            Multi-Currency
+          </label>
+          <div class="col-sm-10">
+            <select name="kreativan[multicurency]" class="form-control">
+              <option value="1" {% if kreativan.multicurency == '1' %}selected="selected"{% endif %}>
+                Enable
+              </option>
+              <option value="0" {% if kreativan.multicurency == '0' %}selected="selected"{% endif %}>
+                Disable
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            Compile Less
+          </label>
+          <div class="col-sm-10">
+            <select name="kreativan[less]" class="form-control">
+              <option value="1" {% if kreativan.less == '1' %}selected="selected"{% endif %}>
+                Enable
+              </option>
+              <option value="0" {% if kreativan.less == '0' %}selected="selected"{% endif %}>
+                Disable
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            Compiled CSS file suffix
+            <span data-toggle="tooltip" title="Used for browser cache busting"></span>
+          </label>
+          <div class="col-sm-10">
+            <input type="text" name="kreativan[less_suffix]" value="{{ kreativan.less_suffix }}" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Load jQuery</label>
+          <div class="col-sm-10 text-uppercase">
+            <select name="kreativan[jquery]" class="form-control">
+              <option value="1" {% if kreativan.jquery == '1' %}selected="selected"{% endif %}>
+                Yes
+              </option>
+              <option value="0" {% if kreativan.jquery == '0' %}selected="selected"{% endif %}>
+                No
+              </option>
+            </select>
+          </div>
+        </div>
+          
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Social Links</h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Facebook</label>
+          <div class="col-sm-10">
+            <input type="text" name="kreativan[social_links][facebook]" value="{{ kreativan.social_links.facebook }}" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Twitter</label>
+          <div class="col-sm-10">
+            <input type="text" name="kreativan[social_links][twitter]" value="{{ kreativan.social_links.twitter }}" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Instagram</label>
+          <div class="col-sm-10">
+            <input type="text" name="kreativan[social_links][instagram]" value="{{ kreativan.social_links.instagram }}" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Linkedin</label>
+          <div class="col-sm-10">
+            <input type="text" name="kreativan[social_links][linkedin]" value="{{ kreativan.social_links.linkedin }}" class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>  
+
+  </div>
+
+</form>
+</div>

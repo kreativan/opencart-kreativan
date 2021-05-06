@@ -1,0 +1,64 @@
+{{ header }}
+
+{{ hero }}
+
+{% if column_left or column_right %}
+  <div id="main" class="uk-section">
+    <div class="uk-container">
+
+      {% if column_left or column_right %}
+      <div class="uk-grid" uk-grid>
+      {% endif %}
+
+        {% if column_left %}
+        <div class="uk-width-medium@m">
+          {{ column_left }}
+        </div>
+        {% endif %}
+
+        {% if column_left or column_right %}
+        <div class="uk-width-expand@m">
+        {% endif %}
+
+          <div id="content">
+            {{ content_top }}
+            {{ content_bottom }}
+          </div>
+
+        {% if column_left or column_right %}
+        </div>
+        {% endif %}
+
+        {% if column_right %}
+        <div class="uk-width-medium@m">
+          {{ column_right }}
+        </div>
+        {% endif %}
+
+      {% if column_left or column_right %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+{% else %}
+
+  {% if content_top %}
+  <div id="top" class="uk-margin-medium">
+    <div class="uk-container">
+      {{ content_top }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if content_bottom %}
+  <div id="bottom" class="uk-margin-medium">
+    <div class="uk-container">
+      {{ content_bottom }}
+    </div>
+  </div>
+  {% endif %}
+
+{% endif %}
+
+{{ footer }}

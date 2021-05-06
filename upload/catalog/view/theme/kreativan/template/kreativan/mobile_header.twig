@@ -1,0 +1,74 @@
+
+<div id="headerbar-mobile">
+
+  <div class="logo uk-text-center">
+    {% if logo %}
+    <a href="{{ home }}" class="uk-logo">
+      <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" />
+    </a>
+    {% else %}
+    <a class="uk-logo uk-h4 uk-text-uppercase uk-text-bold uk-margin-remove" href="{{ home }}">{{ name }}</a>
+    {% endif %}
+  </div>
+
+</div>
+
+<div id="mobile-nav" class="uk-flex uk-flex-middle uk-flex-between uk-position-relative">
+
+  <div class="uk-flex uk-flex-middle">
+    <a href="#" 
+      class="uk-link-reset uk-margin-right" 
+      onclick="menu('globalmenu&menu_route={{ route }}')">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+      </svg>
+    </a>
+    <div class="logo uk-text-center">
+      {% if logo %}
+      <a href="{{ home }}" class="uk-logo">
+        <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" />
+      </a>
+      {% else %}
+      <a class="uk-logo uk-h4 uk-text-uppercase uk-text-bold uk-margin-remove" href="{{ home }}">{{ name }}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div>
+
+    <button 
+      type="button" 
+      class="uk-icon-button uk-icon" 
+      uk-icon="folder" 
+      onclick="categoryMenu({{ current_category }}, 0)">
+    </button>
+
+    {% if current_category and is_filter %}
+    <button 
+      type="button" 
+      class="uk-icon-button uk-icon uk-margin-left" 
+      uk-icon="settings" 
+      onclick="menu('filter&path={{ current_category }}&filter={{ current_filter }}')">
+    </button>
+    {% endif %}
+
+    <a href="#modal-search" class="uk-icon-button uk-icon uk-position-relative uk-margin-left" uk-icon="search" uk-toggle>
+    </a>
+
+    <a href="#offcanvas-cart" class="uk-icon-button uk-icon uk-position-relative uk-margin-left" uk-icon="cart" uk-toggle title="{{ text_cart }}">
+      <span class="cart-counter uk-badge uk-position-top-right{% if cart_count < 1 %} uk-hidden{% endif %}" style="right:-10px;top:-3px;">
+        {{ cart_count }}
+      </span>
+    </a>
+
+    {% if logged %}
+      <button type="button" class="uk-icon-button uk-icon uk-margin-left" uk-icon="user" onclick="menu('usermenu')"></button>
+    {% else %}
+      <a href="{{ login }}" class="uk-icon-button uk-icon uk-margin-left" uk-icon="user"></a>
+    {% endif %}
+  </div>
+
+</div>

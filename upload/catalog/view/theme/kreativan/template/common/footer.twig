@@ -1,0 +1,85 @@
+<footer class="uk-section uk-section-small uk-section-secondary">
+  <div class="uk-container">
+
+    <div class="uk-grid uk-visible@m" uk-grid>
+
+      {% if informations %}
+      <div class="uk-width-expand@m">
+        <h5 class="uk-h3">{{ text_information }}</h5>
+        <ul class="uk-nav">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <div class="uk-width-expand@m">
+        <h5 class="uk-h3">{{ text_service }}</h5>
+        <ul class="uk-nav">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div>
+
+      <div class="uk-width-expand@m">
+        <h5 class="uk-h3">{{ text_extra }}</h5>
+        <ul class="uk-nav">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+
+      <div class="uk-width-expand@m">
+        <h5 class="uk-h3">{{ text_account }}</h5>
+        <ul class="uk-nav">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="uk-margin-medium uk-visible@m">
+
+    <div class="uk-text-center">
+      <p>{{ powered }}</p>
+    </div>
+
+  </div>
+
+</footer>
+
+{{ offcanvas_menu }}
+{{ search }}
+
+<div id="offcanvas-cart" class="uk-offcanvas uk-offcanvas-overlay" uk-offcanvas="overlay: true; flip: true;">
+  <div class="uk-offcanvas-bar tm-offcanvas-no-space">
+    {{ cart }}
+  </div>
+</div>
+
+<div id="menu-off" class="uk-offcanvas uk-offcanvas-overlay" uk-offcanvas="overlay: true;">
+  <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+    
+  </div>
+</div>
+
+{{ popup }}
+
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+
+</body>
+
+</html>

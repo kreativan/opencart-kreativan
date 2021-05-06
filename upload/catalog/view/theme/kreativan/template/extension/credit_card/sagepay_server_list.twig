@@ -1,0 +1,141 @@
+{{ header }}
+
+<div id="breadcrumb">
+  <div class="uk-container">
+    <ul class="uk-breadcrumb uk-margin-remove">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% if success %}
+  <div class="uk-alert uk-alert-success uk-margin-remove">
+    <div class="uk-container">
+      <span uk-icon="icon: check"></span>
+      {{ success }}
+    </div>
+  </div>
+{% endif %}
+
+{% if error_warning %}
+  <div class="uk-alert uk-alert-warning uk-margin-remove">
+    <div class="uk-container">
+      <span uk-icon="icon: warning"></span>
+      {{ error_warning }}
+    </div>
+  </div>
+{% endif %}
+
+<div class="uk-section">
+<div class="uk-container">
+
+  {{ content_top }}
+
+  {% if column_left or column_right %}<div class="uk-grid" uk-grid>{% endif %}
+
+  {% if column_left %}
+  <div class="uk-width-medium@m">
+    {{ column_left }}
+  </div>
+  {% endif %}
+
+  {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+  
+    <div id="main">
+      <h1>{{ heading_title }}</h1>
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-divider uk-table-middle">
+          <thead>
+            <tr>
+              <th class="uk-text-left">{{ column_type }}</th>
+              <th class="uk-text-left">{{ column_digits }}</th>
+              <th class="uk-text-right">{{ column_expiry }}</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+          {% if cards %}
+          {% for card in cards %}
+          <tr>
+            <td class="uk-text-left">{{ card.type }}</td>
+            <td class="uk-text-left">{{ card.digits }}</td>
+            <td class="uk-text-right">{{ card.expiry }}</td>
+            <td class="uk-text-right"><a href="{{ delete }}  {{ card.card_id }}" class="uk-button uk-button-danger">{{ button_delete }}</a></td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td class="uk-text-center" colspan="5">{{ text_empty }}</td>
+          </tr>
+          {% endif %}
+            </tbody>
+          
+        </table>
+      </div>
+      <div class="uk-flex uk-flex-betwen">
+        <div>{{ pagination }}</div>
+        <div class="uk-text-right uk-text-small uk-text-muted">{{ results }}</div>
+      </div>
+      <div class="buttons uk-flex uk-flex-between">
+        <div class="pull-left"><a href="{{ back }}" class="uk-button uk-button-default">{{ button_back }}</a></div>
+        <div class="pull-right">
+          <input type="button" value="{{ button_new_card }}" id="button-add-card" data-loading-text="{{ text_loading }}" class="uk-button uk-button-primary" />
+        </div>
+      </div>
+    </div>
+
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {% if column_right %}
+  <div class="uk-width-medium@m">
+    {{ column_right }}
+  </div>
+  {% endif %}
+
+  <!-- grid end -->
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {{ content_bottom }}
+
+</div>
+</div>
+
+<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+<script type="text/javascript"><!--
+$('#button-add-card').bind('click', function () {
+	$.ajax({
+		url: 'index.php?route=extension/credit_card/sagepay_server_cards/addCard',
+		dataType: 'json',
+		cache: false,
+		beforeSend: function () {
+			$('#button-confirm').button('loading');
+		},
+		complete: function () {
+			$('#button-confirm').button('reset');
+		},
+		success: function (json) {
+			// if success
+			if (json['redirect']) {
+				html = '<form action="' + json['redirect'] + '" method="post" id="redirect">';
+				html += '  <input type="hidden" name="Status" value="' + json['Status'] + '" />';
+				html += '  <input type="hidden" name="StatusDetail" value="' + json['StatusDetail'] + '" />';
+				
+				html += '</form>';
+				
+				$('#breadcrumb').after(html);
+				
+				$('#redirect').submit();
+			}
+			
+			// if error
+			if (json['error']) {
+				$('#breadcrumb').after('<div class="uk-alert uk-alert-danger alert-dismissible"><span uk-icon="icon: warning"></span> ' + json['error'] + '</div>');
+			}
+		}
+	});
+});
+//--></script> 
+{{ footer }} 

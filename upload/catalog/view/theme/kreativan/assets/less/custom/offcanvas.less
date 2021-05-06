@@ -1,0 +1,117 @@
+
+@offcanvas-z-index:                             @global-z-index;
+
+@offcanvas-bar-width:                           300px;
+@offcanvas-bar-padding-vertical:                @global-margin;
+@offcanvas-bar-padding-horizontal:              @global-margin;
+@offcanvas-bar-background:                      white;
+@offcanvas-bar-color-mode:                      dark;
+
+@offcanvas-bar-width-m:                         320px;
+@offcanvas-bar-padding-vertical-m:              @global-medium-gutter;
+@offcanvas-bar-padding-horizontal-m:            @global-medium-gutter;
+
+@offcanvas-close-position:                      20px;
+@offcanvas-close-padding:                       5px;
+
+@offcanvas-overlay-background:                  rgba(0,0,0,0.1);
+
+
+/* ========================================================================
+   Component: Off-canvas
+========================================================================== */
+
+.tm-offcanvas-header {
+
+  margin: -@offcanvas-bar-padding-vertical-m;
+  margin-bottom: 0;
+  padding: 15px @offcanvas-bar-padding-vertical-m;
+  border-bottom: 1px solid @global-border;
+
+  @media(max-width: @breakpoint-medium) {
+    margin: -@offcanvas-bar-padding-vertical;
+    padding: 15px @offcanvas-bar-padding-vertical;
+  }
+  
+}
+
+
+.uk-offcanvas-bar {
+
+  &.tm-offcanvas-no-space {
+    padding:0;
+  }
+
+  .uk-nav.uk-nav-default li > a {
+    font-size:0.95rem !important;
+  }
+
+}
+
+.tm-offcanvas-header {
+  margin: 0 !important;
+  padding: 15px !important;
+  @media(max-width: @breakpoint-medium) {
+    h3 {
+      font-size: 1rem !important;
+    }
+  }
+}
+
+#offcanvas-cart {
+
+  @media(min-width: 460px) {
+    .uk-offcanvas-bar {
+      width: 400px;
+    }
+  }
+
+  @media(max-width: 460px) {
+    .uk-offcanvas-bar {
+      width: 90%;
+    }
+    .uk-button {
+      font-size:0.8rem;
+    }
+  }
+
+}
+
+
+// categories nav
+.offcanvas-nav {
+
+  list-style:none;
+  padding: 0;
+  margin:0;
+  border-bottom: 1px solid @global-border;
+
+  & > li > a {
+    display:block;
+    position:relative;
+    padding: 12px 15px;
+    color: @global-color;
+    text-decoration: none;
+    &:hover {
+      background: fade(black, 2%);
+    }
+  }
+
+   & > li.uk-active > a {
+    color: @global-link-color;
+   }
+
+  & > li + li > a {
+    border-top: 1px solid @global-border;
+  }
+  
+}
+
+#offcanvas-category {
+  
+  @media(max-width: 380px) {
+    .uk-offcanvas-bar {
+      width:80%;
+    }
+  }
+}

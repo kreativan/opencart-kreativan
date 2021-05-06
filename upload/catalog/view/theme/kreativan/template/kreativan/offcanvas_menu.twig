@@ -1,0 +1,24 @@
+<div id="offcanvas-category" uk-offcanvas="overlay: true; flip: false;">
+  <div class="uk-offcanvas-bar tm-offcanvas-no-space">
+    <div class="tm-offcanvas-header uk-text-center uk-position-relative uk-background-muted">
+      <h3 class="uk-h4 uk-margin-remove">{{ text_categories }}</h3>
+      <button class="uk-offcanvas-close uk-close uk-icon-button uk-position-center-right uk-position-small" uk-close type="button"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+function categoryMenu(id, delay = 120) {
+  event.preventDefault();
+  let offcanvas = document.querySelector("#offcanvas-category");
+  UIkit.offcanvas(offcanvas).hide();
+  fetch(`index.php?route=kreativan/ajax/offcanvascategoryhtml&category_id=${id}&path={{ current_child_category_id }}`)
+  .then(response => response.text())
+  .then(data => {
+    document.querySelector("#offcanvas-category .uk-offcanvas-bar").innerHTML = data;
+    setTimeout(function() {
+      UIkit.offcanvas(offcanvas).show();
+    }, delay);
+  })
+}
+</script>

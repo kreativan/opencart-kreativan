@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="{{ direction }}" lang="{{ lang }}">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{ title }}</title>
+<base href="{{ base }}" />
+{% if description %}
+<meta name="description" content="{{ description }}" />
+{% endif %}
+{% if keywords %}
+<meta name="keywords" content="{{ keywords }}" />
+{% endif %}
+
+{% if legacy %}
+  <link href="catalog/view/theme/kreativan/assets/css/legacy.css" rel="stylesheet" media="screen" />
+  <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+  <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+{% elseif kreativan.jquery %}  
+  <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+{% endif %}
+
+<link href="{{ less }}" rel="stylesheet" media="screen" />
+<script defer src="catalog/view/theme/{{ theme }}/assets/js/uikit.min.js" type="text/javascript"></script>
+<script defer src="catalog/view/theme/{{ theme }}/assets/js/uikit-icons.min.js" type="text/javascript"></script>
+<script defer src="catalog/view/theme/{{ theme }}/assets/js/main.js" type="text/javascript"></script>
+
+{% if flatpickr %}
+  <script defer src="vendor/flatpickr/flatpickr.min.js" type="text/javascript"></script>
+  <link href="vendor/flatpickr/flatpickr.min.css" rel="stylesheet" media="screen" />
+
+  {% if lang != "en" %}
+    <script defer src="vendor/flatpickr/l10n/{{ lang }}.js" type="text/javascript"></script>
+    <script>
+      const lang_code = "{{ lang }}";
+      flatpickr.localize(flatpickr.l10ns.lang_code);
+    </script>
+  {% endif %}
+
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      const dateFields = document.querySelectorAll('.datePicker');
+      const timeFields = document.querySelectorAll('.timePicker');
+      const dateTimeFields = document.querySelectorAll('.dateTimePicker');
+      if(dateFields) {
+        dateFields.forEach(e => {
+          e.flatpickr({
+            dateFormat: 'Y-m-d',
+            altFormat: 'Y-m-d',
+            // minDate: 'today',
+            // enableTime: true,
+          });
+        });
+      }
+      if(timeFields) {
+        timeFields.forEach(e => {
+          e.flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: 'H:i',
+            time_24hr: true
+          });
+        });
+      }
+      if(dateTimeFields) {
+        dateTimeFields.forEach(e => {
+          e.flatpickr({
+            dateFormat: 'Y-m-d H:i',
+            // minDate: 'today',
+            enableTime: true,
+            time_24hr: true
+          });
+        });
+      }
+    });
+  </script>
+{% endif %}
+
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+
+{% for link in links %}
+<link href="{{ link.href }}" rel="{{ link.rel }}" />
+{% endfor %}
+
+{% for analytic in analytics %}
+{{ analytic }}
+{% endfor %}
+
+</head>
+
+<body{% if css_id %} id="{{ css_id }}"{% endif %}>
+
+
+{% if not maintenance %}
+<div id="header-mobile" class="uk-hidden@l" uk-sticky>
+{{ mobile_header }}
+</div>
+
+<header id="header" class="uk-visible@l">
+
+  <div id="hederbar" class="uk-padding-small uk-background-secondary uk-light">
+    <div class="uk-container">
+      {{ headerbar }}
+    </div>
+  </div>
+
+  <div id="navbar" uk-sticky="show-on-up: true; animation: uk-animation-slide-top">
+    <div class="uk-container">
+      {{ navbar }}
+    </div>
+  </div>
+
+</header>
+{% endif %}

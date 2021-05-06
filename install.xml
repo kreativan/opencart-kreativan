@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+<name>Kreativan Framework</name>
+<version>1.0</version>
+<author>Ivan Milincic</author>
+<link>http://kreativan.dev</link>
+<code>kreativan_framework</code>
+<description>Kreativan opencart theme and features based on uikit front-end framework</description>
+	 
+<file path="system/{engine,library}/{action,loader,config,language}*.php|system/library/template/template.php">
+  <operation>
+    <search regex="true">
+      <![CDATA[~(require|include)(_once)?\(([^)]+)~]]>
+    </search>
+    <add position="replace">
+      <![CDATA[$1$2(modification($3)]]>
+    </add>
+  </operation>
+</file>
+
+<file path="admin/controller/common/column_left.php">
+  <!-- add modules menu -->
+  <operation>
+    <search><![CDATA[ $marketplace = array(); ]]></search>
+    <add position="after"><![CDATA[
+
+      if ($this->user->hasPermission('access', 'marketplace/extension')) {
+        $marketplace[] = array(
+          'name'	   => 'Modules',
+          'href'     => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true),
+          'children' => array()
+        );
+      }
+
+    ]]>
+    </add>
+  </operation>
+  <!-- add kreativan menu on sidebar -->
+  <operation>
+    <search><![CDATA[ $catalog = array(); ]]></search>
+      <add position="before"><![CDATA[
+          $kreativan = array();
+          // Items
+          $kreativan[] = array(
+            'name'	   => 'Settings',
+            'href'     => $this->url->link('kreativan/settings', 'user_token=' . $this->session->data['user_token'], true),
+            'children' => array()
+          );
+          $theme = $this->config->get('config_theme');
+          $kreativan[] = array(
+            'name'	   => 'Theme',
+            'href'     => $this->url->link("extension/theme/$theme", 'user_token=' . $this->session->data['user_token'] . '&store_id=0', true),
+            'children' => array()
+          );
+          $kreativan[] = array(
+            'name'	   => 'Hero',
+            'href'     => $this->url->link('kreativan/hero', 'user_token=' . $this->session->data['user_token'], true),
+            'children' => array()
+          );
+          $kreativan[] = array(
+            'name'	   => 'Popup',
+            'href'     => $this->url->link('kreativan/popup', 'user_token=' . $this->session->data['user_token'], true),
+            'children' => array()
+          );
+          // get module from db and create shortcut
+          /*
+          $kreativan_module_db = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `code` = 'kreativan' ORDER BY `name`");
+          if($kreativan_module_db->num_rows > 0) {
+            $kreativan_module_id = $kreativan_module_db->row['module_id'];
+            $kreativan[] = array(
+              'name'	   => 'Custom Module',
+              'href'     => $this->url->link('extension/module/kreativan', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $kreativan_module_id, true),
+              'children' => array()
+            );
+          }
+          */
+          $data['menus'][] = array(
+            'id'       => 'kreativan-menu',
+            'icon'	   => 'fa-html5',
+            'name'	   => 'Kreativan',
+            'href'     => '',
+            'children' => $kreativan
+          );
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- header controller -->
+<file path="catalog/controller/common/header.php">
+  <operation>
+    <search><![CDATA[ return $this->load->view('common/header', $data); ]]></search>
+    <add position="before"><![CDATA[
+        
+        $kreativan = $this->config->get('kreativan');
+
+        $legacy_array = [
+          "checkout/checkout", 
+          "affiliate/register",
+          "account/edit",
+          "account/address/edit",
+          "account/affiliate/add",
+          "account/register",
+        ];
+
+        $flatpickr_array = [
+          "product/product",
+          "account/return/add",
+          "affiliate/register",
+          "account/edit",
+        ];
+
+        $get_route = isset($_GET["route"]) ? $_GET["route"] : "";
+        
+        $data['kreativan'] = $kreativan;
+        $data['css_id'] = str_replace("/", "-", $get_route);
+        $data['legacy'] = isset($_GET["route"]) && in_array($_GET["route"], $legacy_array) ? true : false;
+        $data['theme'] = $this->config->get('config_theme');
+        $data['mobile_header'] = $this->load->controller('kreativan/mobile_header');
+        $data['headerbar'] = $this->load->controller('kreativan/headerbar');
+        $data['navbar'] = $this->load->controller('kreativan/navbar');
+        $data['less'] = $this->load->controller('kreativan/less');
+        $data['flatpickr'] = isset($_GET["route"]) && in_array($_GET["route"], $flatpickr_array) ? true : false;
+        //$data['kreativan_jquery'] = $this->config->get('kreativan_jquery');
+        
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- footer controller -->
+<file path="catalog/controller/common/footer.php">
+  <operation>
+    <search><![CDATA[ return $this->load->view('common/footer', $data); ]]></search>
+    <add position="before"><![CDATA[
+        $data['cart'] = $this->load->controller('common/cart');
+        $data['offcanvas_menu'] = $this->load->controller('kreativan/offcanvas_menu');
+        $data['search'] = $this->load->controller('common/search');
+        $data['popup'] = $this->load->controller('kreativan/popup');
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- home controller -->
+<file path="catalog/controller/common/home.php">
+  <operation>
+    <search><![CDATA[ $this->response->setOutput($this->load->view('common/home', $data)); ]]></search>
+    <add position="before"><![CDATA[
+        $data['hero'] = $this->load->controller('kreativan/hero');
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- product controller -->
+<file path="catalog/controller/product/product.php">
+  <!-- add controlers -->
+  <operation>
+    <search><![CDATA[ $this->response->setOutput($this->load->view('product/product', $data)); ]]></search>
+    <add position="before"><![CDATA[
+        $data['product_related'] = $this->load->controller('kreativan/product_related');
+        $data['product_options'] = $this->load->controller('kreativan/product_options');
+        $data['product_media'] = $this->load->controller('kreativan/product_media');
+        $data['product_review_form'] = $this->load->controller('kreativan/product_review_form');
+        $data['product_attributes'] = $this->load->controller('kreativan/product_attributes');
+        $data['product_reviews'] = $this->load->controller('kreativan/product_reviews');
+      ]]>
+    </add>
+  </operation>
+  <!-- disable loading defailt oc css/js -->
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- compare -->
+<file path="catalog/controller/product/compare.php">
+  <operation>
+    <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
+    <add position="before"><![CDATA[
+        $json["count"] = isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- checkout / cart -->
+<file path="catalog/controller/checkout/cart.php">
+  <operation>
+    <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
+    <add position="before"><![CDATA[
+        $count = $this->cart->countProducts();
+        $json["count"] = (int) $count;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- account / wishlist -->
+<file path="catalog/controller/account/wishlist.php">
+  <operation>
+    <search><![CDATA[ $this->response->addHeader('Content-Type: application/json'); ]]></search>
+    <add position="after"><![CDATA[
+        if($this->customer->isLogged()) {
+          $json["count"] = $this->model_account_wishlist->getTotalWishlist();
+        }
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- manufacturer -->
+<file path="catalog/controller/product/manufacturer.php">
+  <operation>
+    <search><![CDATA[ $data['categories'][$key]['manufacturer'][] = array( ]]></search>
+    <add position="before"><![CDATA[
+         $this->load->model('tool/image');
+      ]]>
+    </add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $data['categories'][$key]['manufacturer'][] = array( ]]></search>
+    <add position="after"><![CDATA[
+        "image" => $this->model_tool_image->resize($result["image"], 80, 80),
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- checkout controller -->
+<file path="catalog/controller/checkout/checkout.php">
+   <!-- disable loading defailt oc css/js -->
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- affiliate controller -->
+<file path="catalog/controller/affiliate/register.php">
+   <!-- disable loading defailt oc css/js -->
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- returns -->
+<file path="catalog/controller/account/return.php">
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- module / banner -->
+<file path="catalog/controller/extension/module/banner.php">
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- module / carousel -->
+<file path="catalog/controller/extension/module/carousel.php">
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- module / information -->
+<file path="catalog/controller/extension/module/information.php">
+  <operation>
+    <search><![CDATA[ $data['informations'][] = array( ]]></search>
+    <add position="after"><![CDATA[
+        'id' => $result['information_id'],
+      ]]>
+    </add>
+  </operation>
+  <operation>
+    <search><![CDATA[ return $this->load->view('extension/module/information', $data); ]]></search>
+    <add position="before"><![CDATA[
+        $data['page_id'] = isset($_GET['information_id']) ? $_GET['information_id'] : false;
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- module / slideshow -->
+<file path="catalog/controller/extension/module/slideshow.php">
+  <operation>
+    <search><![CDATA[ $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css'); ]]></search>
+    <add position="before"><![CDATA[ /* ]]></add>
+  </operation>
+  <operation>
+    <search><![CDATA[ $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js'); ]]></search>
+    <add position="after"><![CDATA[ */ ]]></add>
+  </operation>
+</file>
+
+<!-- CUSTOM IMAGE CROP FUNCTION / METHOD -->
+<file path="system/library/image.php">
+  <operation>
+    <search><![CDATA[ private function html2rgb($color) { ]]></search>
+      <add position="before"><![CDATA[
+
+        public function resizeWidth($width) {
+
+          $image_old = $this->image;
+          $new_width = $width;
+
+          // wide or tall
+          if($this->width > $this->height) {
+            $ratio = $this->width / $this->height;
+            $new_height = $width / $ratio;
+          } else {
+            $ratio = $this->height / $this->width;
+            $new_height = $width * $ratio;
+          }
+
+          $this->image = imagecreatetruecolor($new_width, $new_height);
+
+          imagecopyresampled($this->image, $image_old, 0, 0, 0, 0, $new_width, $new_height, $this->width,  $this->height);
+
+          imagedestroy($image_old);
+
+          $this->width = $new_width;
+          $this->height = $new_height;
+
+        }
+
+        public function resizeHeight($height) {
+
+          $image_old = $this->image;
+          $new_height = $height;
+
+          // wide or tall
+          if($this->width > $this->height) {
+            $ratio = $this->width / $this->height;
+            $new_width = $height * $ratio;
+          } else {
+            $ratio = $this->height / $this->width;
+            $new_width = $height / $ratio;
+          }
+      
+
+          $this->image = imagecreatetruecolor($new_width, $new_height);
+
+          imagecopyresampled($this->image, $image_old, 0, 0, 0, 0, $new_width, $new_height, $this->width,  $this->height);
+
+          imagedestroy($image_old);
+
+          $this->width = $new_width;
+          $this->height = $new_height;
+        }
+
+      ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- ##################### ADMIN STUFF ###################### -->
+
+<!-- add dragula to layouts -->
+<file path="admin/controller/design/layout.php">
+  <operation>
+    <search><![CDATA[ public function edit() { ]]></search>
+    <add position="after"><![CDATA[
+      $this->document->addScript('../vendor/dragula/dragula.min.js');
+      $this->document->addStyle('../vendor/dragula/dragula.min.css');
+      $this->document->addScript('../vendor/dragula/layout.js');
+      $this->document->addStyle('../vendor/dragula/layout.css');
+    ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- product save redirect to the same edit page -->
+<file path="admin/controller/catalog/product.php">
+  <operation>
+    <search><![CDATA[ $this->response->redirect($this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . $url, true)); ]]></search>
+    <add position="replace"><![CDATA[
+        $redirect_route = "catalog/product";
+        $redirect_url = "user_token={$this->session->data['user_token']}{$url}";
+        if($this->request->get['route'] == "catalog/product/edit") {
+          $product_id = $this->request->get['product_id'];
+          $redirect_route = "catalog/product/edit";
+          $redirect_url = "user_token={$this->session->data['user_token']}&product_id={$product_id}";
+        }
+        $this->response->redirect($this->url->link($redirect_route, $redirect_url . $url, true));
+    ]]>
+    </add>
+  </operation>
+</file>
+
+<!-- layout save redirect to the same edit page -->
+<file path="admin/controller/design/layout.php">
+  <operation>
+    <search><![CDATA[ $this->response->redirect($this->url->link('design/layout', 'user_token=' . $this->session->data['user_token'] . $url, true)); ]]></search>
+    <add position="replace"><![CDATA[
+        $redirect_route = "design/layout";
+        $redirect_url = "user_token={$this->session->data['user_token']}{$url}";
+        if($this->request->get['route'] == "design/layout/edit") {
+          $layout_id = $this->request->get['layout_id'];
+          $redirect_route = "design/layout/edit";
+          $redirect_url = "user_token={$this->session->data['user_token']}&layout_id={$layout_id}";
+        }
+        $this->response->redirect($this->url->link($redirect_route, $redirect_url . $url, true));
+    ]]>
+    </add>
+  </operation>
+</file>
+	
+</modification>

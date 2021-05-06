@@ -1,0 +1,105 @@
+{{ header }}
+
+<div id="breadcrumb">
+  <div class="uk-container">
+    <ul class="uk-breadcrumb uk-margin-remove">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% if success %}
+  <div class="uk-alert uk-alert-success uk-margin-remove">
+    <div class="uk-container">
+      <span uk-icon="icon: check"></span>
+      {{ success }}
+    </div>
+  </div>
+{% endif %}
+
+{% if error_warning %}
+  <div class="uk-alert uk-alert-danger uk-margin-remove">
+    <div class="uk-container">
+      <span uk-icon="icon: warning"></span>
+      {{ error_warning }}
+    </div>
+  </div>
+{% endif %}
+
+<div id="main" class="uk-section">
+<div class="uk-container">
+
+  {{ content_top }}
+
+  <!--
+  {% if column_left or column_right %}<div class="uk-grid" uk-grid>{% endif %}
+
+  {% if column_left %}
+  <div class="uk-width-auto@m">
+    {{ column_left }}
+  </div>
+  {% endif %}
+  -->
+
+  {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+
+    <div id="content">
+      <div class="tm-panel uk-padding">
+        <div class="uk-grid uk-grid-divider" uk-grid>
+
+          <div class="uk-width-expand@m">
+            <div>
+              <h2>{{ text_new_customer }}</h2>
+              <p><strong>{{ text_register }}</strong></p>
+              <p>{{ text_register_account }}</p>
+              <a href="{{ register }}" class="uk-button uk-button-primary">{{ button_continue }}</a>
+            </div>
+          </div>
+
+          <div class="uk-width-expand@m">
+            <div>
+              <h2>{{ text_returning_customer }}</h2>
+              <p><strong>{{ text_i_am_returning_customer }}</strong></p>
+              <form action="{{ action }}" method="post" enctype="multipart/form-data" class="uk-form-stacked">
+                <div class="uk-margin-small">
+                  <label class="uk-form-label" for="input-email">{{ entry_email }}</label>
+                  <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="uk-input" />
+                </div>
+                <div class="uk-margin-small">
+                  <label class="uk-form-label" for="input-password">{{ entry_password }}</label>
+                  <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="uk-input" />
+                </div>
+                <div class="uk-margin-small">
+                  <a href="{{ forgotten }}">{{ text_forgotten }}</a>
+                </div>
+                <input type="submit" value="{{ button_login }}" class="uk-button uk-button-primary uk-margin-small-top" />
+                {% if redirect %}
+                <input type="hidden" name="redirect" value="{{ redirect }}" />
+                {% endif %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+
+  <!--
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {% if column_right %}
+  <div class="uk-width-auto@m">
+    {{ column_right }}
+  </div>
+  {% endif %}
+  -->
+
+  <!-- grid end -->
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {{ content_bottom }}
+
+</div>
+</div>
+{{ footer }}

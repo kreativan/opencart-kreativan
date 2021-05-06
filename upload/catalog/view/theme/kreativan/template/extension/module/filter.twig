@@ -1,0 +1,58 @@
+<div class="filter-module">
+
+  <h3 class="module-title">{{ heading_title }}</h3>
+
+  <div class="filters-list">
+    {% for filter_group in filter_groups %} 
+    <div class="filter-group">
+      <h5 class="uk-heading-divider uk-margin-small uk-text-bold">{{ filter_group.name }}</h5>
+      <ul id="filter-group{{ filter_group.filter_group_id }}" class="uk-list">
+        {% for filter in filter_group.filter %}
+        <li>
+          <label class="uk-form-label">
+            <input 
+              type="checkbox" 
+              class="uk-checkbox" 
+              name="filter[]" 
+              value="{{ filter.filter_id }}" 
+              {% if filter.filter_id in filter_category %}checked="checked"{% endif %} 
+              onchange="applyFilter()" 
+            />
+            <span class="uk-margin-small-left">
+              {{ filter.name }}
+            </span>
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="filters-button uk-hidden">
+    <button type="button" id="button-filter" class="uk-button uk-button-default uk-button-small" onclick="applyFilter()">{{ button_filter }}</button>
+  </div>
+
+</div> 
+
+<script>
+function applyFilter() {
+  let array = [];
+
+  let filters_mobile = document.querySelectorAll("#menu-off input[name^=filter]:checked");
+  let filters = document.querySelectorAll("input[name^=filter]:checked");
+
+  if(document.querySelector("#menu-off .filter-module")){
+    filters = filters_mobile;
+  }
+
+  filters.forEach(e => {
+    array.push(e.value);
+  }); 
+
+  let location = '{{ action }}&filter=' + array.join(',');
+  console.log(location)
+  
+  window.location.href = location;
+}
+</script>

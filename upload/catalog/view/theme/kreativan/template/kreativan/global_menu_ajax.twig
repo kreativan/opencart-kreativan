@@ -1,0 +1,73 @@
+<h3>{{ name }}</h3>
+
+<button class="uk-offcanvas-close uk-close uk-position-top-right uk-position-small" uk-close="ratio: 1.2" type="button"></button>
+
+<ul class="uk-nav uk-nav-default uk-margin-remove">
+  <li>
+    <a href="{{ home }}" title="{{ name }}">{{ text_home }}</a>
+  </li>
+  <li>
+    <a href="#" title="{{ text_categories }}" onclick="categoryMenu(0)">{{ text_categories }}</a>
+  </li>
+  {% for item in menu %}
+    <li{% if item.is_active %} class="uk-active"{% endif %}>
+      <a href="{{ item.href }}" title="{{ item.title }}">{{ item.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<hr class="uk-margin-small" />
+
+<ul class="uk-nav uk-nav-default uk-margin-remove">
+  {% for information in informations %}
+    <li{% if information.is_active %} class="uk-active"{% endif %}>
+      <a href="{{ information.href }}" title="{{ information.title }}">{{ information.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<hr class="uk-margin-small" />
+
+<ul class="uk-nav uk-nav-default uk-margin-remove">
+  {% for item in support %}
+    <li>
+      <a href="{{ item.href }}" title="{{ item.title }}">{{ item.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+{% if is_multilang %}
+<hr class="uk-margin-small" />
+<ul class="uk-nav uk-nav-default uk-margin-remove">
+  {% for language in languages %}
+    <li{% if language.code == lang_code %} class="uk-active"{% endif %}>
+      <a href="#" onclick="changeLanguage('{{ language.code }}')">
+        <img 
+          src="catalog/language/{{ language.code }}/{{ language.code }}.png" 
+          alt="{{ language.name }}" 
+          title="{{ language.name }}"
+          width="16"
+          height="16"/>
+          {{ language.name }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if is_currency %}
+<hr class="uk-margin-small" />
+<ul class="uk-nav uk-nav-default uk-margin-remove">
+  {% for currency in currencies %}
+    <li{% if currency.code == currency_code %} class="uk-active"{% endif %}>
+      <a href="#" onclick="changeCurrency('{{ currency.code }}')">
+        {% if currency.symbol_left %}
+          {{ currency.symbol_left }} {{ currency.title }}
+        {% else %}
+          {{ currency.symbol_right }} {{ currency.title }}
+        {% endif %}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}

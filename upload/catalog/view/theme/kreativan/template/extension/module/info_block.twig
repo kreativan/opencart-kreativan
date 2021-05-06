@@ -1,0 +1,20 @@
+<div class="info-block uk-background-muted uk-padding">
+  <div class="uk-grid uk-grid-divider uk-flex-middle uk-child-width-expand@m uk-child-width-1-2@s" uk-grid>
+    {% for item in items %}
+      <div>
+        <div class="uk-flex uk-flex-middle uk-position-relative">
+          <div class="uk-margin-small-right">
+            <img src="{{ item.image }}" alt="{{ item.title }}" width="42" height="42" />
+          </div>
+          <div class="uk-margin-small-left">
+            <span class="uk-margin-remove uk-text-bold">{{ item.title }}</span> <br />
+            <span class="uk-text-muted uk-text-small">{{ item.subtitle }}</span>
+          </div>
+          {% if item.link %}
+            <a href="{{ item.link }}" title="{{ item.title }}" class="uk-position-cover"></a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

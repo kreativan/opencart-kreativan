@@ -1,0 +1,23 @@
+<a class="uk-accordion-title" href="#">
+  {{ heading_title }}
+  {% if coupon %}<span class="uk-text-primary" uk-icon="icon: check"></span>{% endif %}
+</a>
+
+<div class="uk-accordion-content">
+  <div class="uk-form-stacked">
+    <label class="uk-form-label">{{ entry_coupon }}</label>
+    <div class="uk-form-controls uk-grid uk-grid-small" uk-grid>
+      <div class="uk-width-expand@s">
+        <input class="uk-input" type="text" name="coupon" value="{{ coupon }}" placeholder="{{ entry_coupon }}" id="input-coupon" class="form-control" />
+      </div>
+      <div class="uk-width-auto@s">
+        <input 
+          class="uk-button uk-button-primary" 
+          type="button" 
+          value="{{ button_coupon }}" 
+          onclick="applyCoupon()"
+        />
+      </div>
+    </div>
+  </div>
+</div>

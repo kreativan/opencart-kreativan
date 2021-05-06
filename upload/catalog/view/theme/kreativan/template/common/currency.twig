@@ -1,0 +1,29 @@
+{% if currencies|length > 1 %}
+<a href="#">
+  {{ code }}
+  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+</a>
+
+<div class="uk-dropdown" uk-dropdown>
+  <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-currency">
+    <input type="hidden" name="code" value="" />
+    <input type="hidden" name="redirect" value="{{ redirect }}" />
+    <ul class="uk-nav uk-dropdown-nav">
+    {% for currency in currencies %}
+      <li>
+        <a href="#" onclick="changeCurrency('{{ currency.code }}')">
+          {% if currency.symbol_left %}
+            {{ currency.symbol_left }} {{ currency.title }}
+          {% else %}
+            {{ currency.symbol_right }} {{ currency.title }}
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </form>
+</div>
+{% endif %}

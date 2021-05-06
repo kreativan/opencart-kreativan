@@ -1,0 +1,14 @@
+
+form tbody td > .input-group {
+  position: relative;
+  padding-left: 30px;
+}
+form tbody td > .input-group:before {
+  content: "#";
+  position: absolute;
+  left:5px;
+  top:5px;
+  font-weight:bold;
+  font-size:16px;
+  cursor: grab;
+}

@@ -1,0 +1,46 @@
+<div class="tm-panel uk-padding">
+  {% if error_warning %}
+  <div class="uk-alert uk-alert-warning">
+    <span uk-icon="icon: warning"></span>
+    {{ error_warning }}
+    <a class="uk-alert-close uk-close" uk-close></a>
+  </div>
+  {% endif %}
+
+  {% if shipping_methods %}
+    <h4>{{ text_shipping_method }}</h4>
+    <ul class="uk-list uk-list-divider">
+      {% for shipping_method in shipping_methods %}
+      <li>
+        <span class="uk-text-bold">{{ shipping_method.title }}</span>
+        {% if not shipping_method.error %}
+          {% for quote in shipping_method.quote %}
+            <div class="radio">
+              <label> 
+                {% if quote.code == code or not code %}
+                {% set code = quote.code %}
+                <input class="uk-radio" type="radio" name="shipping_method" value="{{ quote.code }}" checked="checked" />
+                {% else %}
+                <input class="uk-radio" type="radio" name="shipping_method" value="{{ quote.code }}" />
+                {% endif %}
+                <span class="uk-margin-small-left">{{ quote.title }} - {{ quote.text }}</span>
+              </label>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="uk-text-danger">{{ shipping_method.error }}</div>
+        {% endif %}
+      </li>  
+      {% endfor %}
+    </ul>  
+  {% endif %}
+
+  <div class="uk-form-stacked">
+    <label class="uk-form-label">{{ text_comments }}</label>
+    <textarea class="uk-textarea" name="comment" rows="5" class="form-control">{{ comment }}</textarea>
+  </div>
+
+  <div class="buttons uk-margin-top">
+    <input type="button" value="{{ button_continue }}" id="button-shipping-method" data-loading-text="{{ text_loading }}" class="uk-button uk-button-primary" />
+  </div>
+</div>

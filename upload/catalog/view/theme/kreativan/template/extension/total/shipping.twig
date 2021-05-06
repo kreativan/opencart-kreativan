@@ -1,0 +1,292 @@
+<a class="uk-accordion-title" href="#">
+  {{ heading_title }}
+  {% if shipping_method %}
+    <span class="uk-text-primary" uk-icon="icon: check"></span>
+  {% endif %}
+</a>
+
+<div class="uk-accordion-content">
+  <div class="uk-form-horizontal">
+
+    <p>{{ text_shipping }}</p>
+
+    <div class="uk-margin">
+      <label class="uk-form-label">
+        {{ entry_country }}
+        <span class="uk-text-danger">*</span>
+      </label>
+      <div class="uk-form-controls">
+        <select name="country_id" id="input-country" class="uk-select" onchange="getZone()">
+          <option value="">{{ text_select }}</option>
+          {% for country in countries %}
+            {% if country.country_id == country_id %}
+            <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+            {% else %}
+            <option value="{{ country.country_id }}">{{ country.name }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label">
+        {{ entry_zone }}
+        <span class="uk-text-danger">*</span>
+      </label>
+      <div class="uk-form-controls">
+        <select name="zone_id" id="input-zone" class="uk-select">
+          <option value="">{{ text_select }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="shipping-postcode" class="uk-margin">
+      <label class="uk-form-label">
+        {{ entry_postcode }}
+        <span class="uk-text-danger uk-hidden">*</span>
+      </label>
+      <div class="uk-form-controls">
+        <input 
+          type="text" 
+          name="postcode" 
+          value="{{ postcode }}" 
+          placeholder="{{ entry_postcode }}" 
+          id="input-postcode" 
+          class="uk-input" 
+        />
+      </div>
+    </div>
+
+    <div class="uk-margin-top">
+      <label class="uk-form-label"></label>
+      <div class="uk-form-controls">
+        <button 
+          type="button" 
+          class="uk-button uk-button-primary"
+          onclick="getShipping()"
+        >
+          {{ button_quote }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="modal-shipping" class="uk-flex-top" uk-modal="bg-close: false;">
+  <div class="uk-modal-dialog uk-margin-auto-vertical">
+
+    <div class="uk-modal-header">
+      <h3 class="uk-modal-title">{{ heading_title }}</h3>
+    </div>
+    
+    <div class="uk-modal-body">
+      <p>{{ text_shipping_method }}</p>
+      <ul id="shipping-list" class="uk-list uk-list-striped"></ul>
+    </div>
+
+    <div class="uk-modal-footer uk-flex uk-flex-between">
+      <button type="button" class="uk-button uk-button-default uk-modal-close">{{ button_cancel }}</button>
+      <input 
+        id="button-shipping"
+        type="button" 
+        value="{{ button_shipping }}" 
+        class="uk-button uk-button-primary" 
+        onclick="applyShipping()"
+        {% if not shipping_method %}
+          disabled="disabled"
+        {% endif %}
+      />
+    </div>
+    
+  </div>
+</div>
+
+<script>
+
+function enableShippingButton() {
+  let button = document.querySelector("#button-shipping");
+  button.removeAttribute("disabled");
+}
+
+/**
+ *  Get Shipping
+ *  and trigger modal
+ */
+function getShipping() {
+
+  document.querySelector("#button-shipping").setAttribute("disabled", "disabled");
+  let modal = document.querySelector("#modal-shipping");
+  let shippingContainer = document.querySelector("#shipping-list");
+  shippingContainer.innerHTML = "";
+
+  let country_id = document.querySelector("select[name=country_id]");
+  let zone_id = document.querySelector("select[name=zone_id]");
+  let postcode = document.querySelector("input[name=postcode]");
+
+  let formData = new FormData();
+  formData.append("country_id", country_id.value);
+  formData.append("zone_id", zone_id.value);
+  formData.append("postcode", postcode.value);
+
+  fetch(`index.php?route=extension/total/shipping/quote`, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+
+    // console.log(data);
+
+    if(data.error) {
+
+      let message = [];
+      if(data.error.country) message.push(data.error.country);
+      if(data.error.zone) message.push(data.error.zone);
+
+      UIkit.notification({
+        message: message[0],
+        status: 'danger',
+        pos: 'top-center',
+        timeout: 3000
+      });
+
+    } else if(data.shipping_method) {
+      
+      let html = "";
+
+      for (i in data.shipping_method) {
+        let item = data.shipping_method[i];
+        html += "<li>";
+          html += `<strong>${item.title}</strong>`;
+          if (!item['error']) {
+            for (j in item['quote']) {
+              let quote = item['quote'][j];
+              html += `<div><label class='uk-form-label'>`;
+              let isChecked = (quote.code == '{{ shipping_method }}') ? 'checked="checked"' : "";
+              if (isChecked) enableShippingButton();
+              html += `<input onchange="enableShippingButton()" class="uk-radio" type="radio" name="shipping_method" value="${quote.code}" ${isChecked} />`;
+              html += `<span class="uk-margin-small-left">${quote.title} - ${quote.text}</span>`;
+              html += `</label></div>`;
+            }
+          } else {
+            html += `<div class='uk-text-danger'>${item['error']}</div>`;
+          }
+        html += "</li>";
+      }
+
+      shippingContainer.innerHTML = html;
+      UIkit.modal(modal).show();
+
+    }
+
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+}
+
+/**
+ *  Apply Shipping
+ *  
+ */
+function applyShipping() {
+
+  let shipping_method = document.querySelector("input[name=shipping_method]:checked");
+
+  if(shipping_method) {
+
+    let formData = new FormData();
+    formData.append("shipping_method", shipping_method.value);
+
+    fetch(`index.php?route=extension/total/shipping/shipping`, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data);
+
+      if (data.error) {
+
+        UIkit.notification({
+          message: data.error,
+          status: 'danger',
+          pos: 'top-center',
+          timeout: 3000
+        });
+      } else if (data.redirect) {
+        window.location.href = data.redirect;
+      }
+
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+  }
+
+}
+
+/**
+ *  Get Zones
+ *  
+ */
+function getZone(id = "") {
+  
+  let country_id = (id != "") ? id : event.target.value;
+  let zone_field = document.querySelector("select[name=zone_id]");
+  let shipping_postcode_span = document.querySelector("#shipping-postcode label > span");
+
+  if(country_id != "") {
+    zone_field.removeAttribute("disabled");
+  } else {
+    zone_field.setAttribute("disabled", "disabled");
+  }
+
+  zone_field.innerHTML = "";
+
+  fetch(`index.php?route=extension/total/shipping/country&country_id=${country_id}`)
+  .then(response => response.json())
+  .then(data => {
+
+    //console.log(data);
+
+    if (data.postcode_required == '1') {
+      shipping_postcode_span.classList.remove("uk-hidden");
+    } else {
+      shipping_postcode_span.classList.add("uk-hidden");
+    }
+
+    let html = `<option value="">{{ text_select }}</option>`;
+
+    if (data.zone && data.zone != '') {
+      for (i = 0; i < data.zone.length; i++) {
+        let zone = data.zone[i];
+        let selected = (zone.zone_id == "{{ zone_id }}") ? "selected" : "";
+        html += `<option value="${zone.zone_id}" ${selected}>${zone.name}</option>`;
+      }
+    } else {
+      html += '<option value="0" selected="selected">{{ text_none }}</option>';
+    }
+
+    zone_field.innerHTML = html;
+
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+}
+
+/**
+ *  Init Zones
+ *  
+ */
+let country_id = document.querySelector("select[name=country_id]").value;
+if(country_id != "") getZone(country_id);
+
+</script>

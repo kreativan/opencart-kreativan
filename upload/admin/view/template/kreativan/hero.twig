@@ -1,0 +1,109 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<form action="{{ action }}" method="post" enctype="multipart/form-data" id="hero-form" class="form-horizontal">
+
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="hero-form" class="btn btn-primary">
+          <i class="fa fa-save"></i> Save
+        </button>
+        <a href="{{ cleanup_db_url }}" class="btn btn-danger" data-toggle="tooltip" title="{{ text_cleanup_db }}">
+          <i class="fa fa-trash"></i>
+        </a>
+      </div>
+      <h1>Hero</h1>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Options</h3>
+      </div>
+      <div class="panel-body">
+        
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-banner">Banner</label>
+          <div class="col-sm-10">
+            <select name="hero[banner]" id="input-banner" class="form-control">
+              <option value="">- Select -</option>
+              {% for banner in banners %}
+              {% if banner.banner_id == hero.banner %}
+              <option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
+              {% else %}
+              <option value="{{ banner.banner_id }}">{{ banner.name }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-banner">Banner Mobile</label>
+          <div class="col-sm-10">
+            <select name="hero[banner_mobile]" id="input-banner" class="form-control">
+              <option value="">- Select -</option>
+              {% for banner in banners %}
+              {% if banner.banner_id == hero.banner_mobile %}
+              <option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
+              {% else %}
+              <option value="{{ banner.banner_id }}">{{ banner.name }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-banner">
+            Ratio
+            <span data-toggle="tooltip" title="Used to define slideshow size. Eg: 1920:400 or 4:1... Leave empty for auto."></span>
+          </label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-6">
+                <input type="text" name="hero[ratio]" value="{{ hero.ratio }}" class="form-control" placeholder="" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-banner">
+            Ratio Mobile
+            <span data-toggle="tooltip" title="Used to define slideshow size on mobile. Eg: 4:3.. Leave empty for auto."></span>
+          </label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-6">
+                <input type="text" name="hero[ratio_mobile]" value="{{ hero.ratio_mobile }}" class="form-control" placeholder="" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            Status
+          </label>
+          <div class="col-sm-10">
+            <select name="hero[status]" class="form-control">
+              <option value="1" {% if hero.status %}selected="selected"{% endif %}>
+                Enable
+              </option>
+              <option value="0" {% if not hero.status %}selected="selected"{% endif %}>
+                Disabled
+              </option>
+          </select>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</form>
+</div>

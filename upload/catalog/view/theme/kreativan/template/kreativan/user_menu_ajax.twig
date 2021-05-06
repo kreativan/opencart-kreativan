@@ -1,0 +1,9 @@
+<h3>{{ hello }}</h3>
+
+<ul class="uk-nav uk-nav-default">
+  {% for item in menu %}
+    <li>
+      <a href="{{ item.href }}" title="{{ item.title }}">{{ item.title }}</a>
+    </li>
+  {% endfor %}
+</ul>

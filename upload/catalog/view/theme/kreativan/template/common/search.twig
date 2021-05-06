@@ -1,0 +1,26 @@
+<div id="modal-search" class="uk-modal" uk-modal>
+
+  <div class="uk-modal-dialog">
+
+    <div class="uk-modal-body">
+      <form actpon="" method="POST">
+        <div class="uk-grid uk-grid-small" uk-grid>
+          <div class="uk-width-expand@s">
+            <input class="uk-input" type="search" name="search" placeholder="{{ text_search }}" autofocus />
+          </div>
+          <div class="uk-width-auto@s">
+            <button 
+              id="modal-search-submit" 
+              class="uk-button uk-button-primary"
+              onclick="modalSearchSubmit()"
+            >
+              {{ text_search }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>

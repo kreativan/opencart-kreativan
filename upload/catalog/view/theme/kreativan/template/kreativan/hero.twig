@@ -1,0 +1,44 @@
+{% if hero.status %}
+<div id="hero" class="uk-background-muted">
+  <div class="uk-height-1-1 uk-flex uk-flex-middle uk-flex-center">
+    <span uk-spinner></span>
+  </div>
+</div>
+
+<script>
+function initSlideshow(screen_width) {
+  let w = screen_width ? screen_width : window.screen.width;
+  let type = w < 768 ? "mobile" : "desktop";
+  let hero = document.querySelector("#hero");
+  hero.innerHTML = "";
+  fetch(`index.php?route=kreativan/hero/ajax&type=${type}`)
+  .then(response => response.text())
+  .then(data => {
+    hero.innerHTML = data;
+    hero.style.height = "auto"; 
+  })
+
+}
+
+function heroWindowResize() {
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      initSlideshow(window.screen.width);  
+    }, 250);
+  });
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+  
+  setTimeout(function() {
+    initSlideshow(window.screen.width);  
+  }, 500);
+
+  
+  heroWindowResize();
+
+});
+</script>
+{% endif %}

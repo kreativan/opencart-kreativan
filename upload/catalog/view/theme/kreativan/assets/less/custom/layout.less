@@ -1,0 +1,57 @@
+// Section
+@section-padding-vertical:                        20px;
+@section-padding-vertical-m:                      35px;
+
+@section-xsmall-padding-vertical:                 @global-margin;
+
+@section-small-padding-vertical:                  @global-medium-margin;
+
+@section-large-padding-vertical:                  @global-large-margin;
+@section-large-padding-vertical-m:                @global-xlarge-margin;
+
+@section-xlarge-padding-vertical:                 @global-xlarge-margin;
+@section-xlarge-padding-vertical-m:               (@global-large-margin + @global-xlarge-margin);
+
+/* =========================================================== 
+  Layout
+=========================================================== */
+
+.sidebar {
+  width:240px;
+}
+
+//  Products
+// ===========================================================
+
+#category-toolbar {
+  margin-bottom: @global-margin;
+}
+
+//  Affiliate
+// ===========================================================
+
+#affiliate-register {
+
+  .uk-grid + .uk-grid {
+    margin-top:15px !important;
+  }
+
+  legend {
+    display:block;
+    width: 100%;
+    margin:20px 0 !important;
+    .uk-h3();
+    .uk-heading-divider();
+  }
+
+  fieldset {
+    border:none;
+    padding:0;
+  }
+
+}
+
+.uk-overflow-auto {
+  position:relative;
+  z-index: 0;
+}

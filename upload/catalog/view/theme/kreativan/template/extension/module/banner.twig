@@ -1,0 +1,27 @@
+{% if banners|length > 1 %}
+<div class="bnr-module-slideshow uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="autoplay: true">
+
+  <ul class="uk-slideshow-items">
+    {% for banner in banners %}
+    <li>
+      <img src="{{ banner.image }}" alt="{{ banner.title }}" loading="lazy" uk-cover>
+      {% if banner.link %}
+        <a href="{{ banner.link }}" title="{{ banner.title }}" class="uk-position-cover"></a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+  <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+</div>
+{% else %}
+<div class="bnr-module-image uk-position-relative">
+  <img src="{{ banners|first.image }}" alt="{{ banners|first.title }}" loading="lazy">
+  {% if banners|first.link %}
+    <a href="{{ banners|first.link }}" title="{{ banners|first.title }}" class="uk-position-cover"></a>
+   {% endif %}
+</div>
+{% endif %}
+

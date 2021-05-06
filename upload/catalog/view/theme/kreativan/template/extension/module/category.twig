@@ -1,0 +1,32 @@
+<div class="category-module">
+
+  <h3 class="module-title">
+    {{ heading_title }}
+  </h3>
+
+  <ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>
+  {% for category in categories %}
+
+    <li {% if category.category_id == category_id %}class="uk-active uk-open"{% endif %}>
+        <a href="{{ category.href }}">{{ category.name }}</a>
+        {% if category.children %}
+          <ul class="uk-nav-sub uk-list-hyphen">
+            {% for child in category.children %}
+              {% if child.category_id == child_id %}
+                <li class="uk-active">
+                  <a href="{{ child.href }}">{{ child.name }}</a>
+                </li>
+              {% else %}
+                <li>
+                  <a href="{{ child.href }}">{{ child.name }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+    </li>
+
+  {% endfor %}
+  </ul>
+
+</div>

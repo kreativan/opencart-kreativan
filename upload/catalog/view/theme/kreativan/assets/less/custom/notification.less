@@ -1,0 +1,46 @@
+@notification-position:                               10px;
+@notification-z-index:                                @global-z-index + 40;
+@notification-width:                                  350px;
+
+@notification-message-margin-top:                     10px;
+@notification-message-padding:                        @global-small-gutter;
+@notification-message-background:                     @global-primary-background;
+@notification-message-color:                          white;
+@notification-message-font-size:                      1.1rem;
+@notification-message-line-height:                    1.3;
+
+@notification-close-top:                              @notification-message-padding + 5px;
+@notification-close-right:                            @notification-message-padding;
+
+@notification-message-primary-color:                  white;
+@notification-message-success-color:                  white;
+@notification-message-warning-color:                  white;
+@notification-message-danger-color:                   white;
+
+
+/* ========================================================================
+   Component: Notification
+========================================================================== */
+
+.uk-notification-message {
+  border-radius: @tm-border-radius;
+  box-shadow: 0 3px 10px rgba(0, 0, 0 , 0.2);
+  .uk-close {
+    color: white;
+  }
+  a {
+    color: white;
+  }
+}
+
+.uk-notification-message-success {
+  background: @global-success-background;
+}
+
+.uk-notification-message-warning {
+  background: @global-warning-background;
+}
+
+.uk-notification-message-danger {
+  background: @global-danger-background;
+}

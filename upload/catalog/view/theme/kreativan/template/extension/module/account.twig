@@ -1,0 +1,33 @@
+<div class="account-module">
+
+  <ul class="uk-nav uk-nav-default">
+
+    {% if not logged %}
+      <li><a href="{{ login }}" class="list-group-item">{{ text_login }}</a></li>
+      <li><a href="{{ register }}" class="list-group-item">{{ text_register }}</a></li> 
+      <li><a href="{{ forgotten }}" class="list-group-item">{{ text_forgotten }}</a></li>
+    {% endif %}
+
+    <li><a href="{{ account }}" class="list-group-item">{{ text_account }}</a></li>
+
+    {% if logged %}
+      <li><a href="{{ edit }}" class="list-group-item">{{ text_edit }}</a></li>
+      <li><a href="{{ password }}" class="list-group-item">{{ text_password }}</a></li>
+    {% endif %}
+
+    <li><a href="{{ address }}" class="list-group-item">{{ text_address }}</a></li> 
+    <li><a href="{{ wishlist }}" class="list-group-item">{{ text_wishlist }}</a></li> 
+    <li><a href="{{ order }}" class="list-group-item">{{ text_order }}</a></li> 
+    <li><a href="{{ download }}" class="list-group-item">{{ text_download }}</a></li>
+    <li><a href="{{ recurring }}" class="list-group-item">{{ text_recurring }}</a></li> 
+    <li><a href="{{ reward }}" class="list-group-item">{{ text_reward }}</a></li> 
+    <li><a href="{{ return }}" class="list-group-item">{{ text_return }}</a></li> 
+    <li><a href="{{ transaction }}" class="list-group-item">{{ text_transaction }}</a></li> 
+    <li><a href="{{ newsletter }}" class="list-group-item">{{ text_newsletter }}</a></li>
+
+    {% if logged %}
+    <li><a href="{{ logout }}" class="list-group-item">{{ text_logout }}</a></li>
+    {% endif %}
+
+  </ul>
+</div>

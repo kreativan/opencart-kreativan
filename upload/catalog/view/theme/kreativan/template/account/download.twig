@@ -1,0 +1,85 @@
+{{ header }}
+
+<div id="breadcrumb">
+  <div class="uk-container">
+    <ul class="uk-breadcrumb uk-margin-remove">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div id="main" class="uk-section" uk-height-viewport="expand: true">
+<div class="uk-container">
+
+  {{ content_top }}
+
+  {% if column_left or column_right %}<div class="uk-grid" uk-grid>{% endif %}
+
+  {% if column_left %}
+  <div class="uk-width-auto@m">
+    {{ column_left }}
+  </div>
+  {% endif %}
+
+  {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+
+    <div id="content">
+
+      <h2>{{ heading_title }}</h2>
+
+      {% if downloads %}
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-striped uk-table-middle">
+          <thead>
+            <tr>
+              <th class="uk-text-right">{{ column_order_id }}</th>
+              <th class="uk-text-left">{{ column_name }}</th>
+              <th class="uk-text-left">{{ column_size }}</th>
+              <th class="uk-text-left">{{ column_date_added }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          
+          {% for download in downloads %}
+          <tr>
+            <td class="uk-text-right">{{ download.order_id }}</td>
+            <td class="uk-text-left">{{ download.name }}</td>
+            <td class="uk-text-left">{{ download.size }}</td>
+            <td class="uk-text-left">{{ download.date_added }}</td>
+            <td>
+              <a href="{{ download.href }}" title="{{ button_download }}" class="uk-icon-button uk-icon" uk-icon="cloud-download"></a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+          
+        </table>
+      </div>
+      <div class="uk-flex uk-flex-between">
+        <div>{{ pagination }}</div>
+        <div class="uk-text-small uk-text-muted">{{ results }}</div>
+      </div>
+      {% else %}
+        <p class="empty-mesage">{{ text_empty }}</p>
+      {% endif %}
+    </div>
+
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {% if column_right %}
+  <div class="uk-width-auto@m">
+    {{ column_right }}
+  </div>
+  {% endif %}
+
+  <!-- grid end -->
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {{ content_bottom }}
+
+</div>
+</div>
+{{ footer }}

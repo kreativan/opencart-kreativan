@@ -1,0 +1,43 @@
+{% if languages|length > 1 %}
+<a href="#">
+  {% for language in languages %}
+  {% if language.code == code %}
+    <img 
+      src="catalog/language/{{ language.code }}/{{ language.code }}.png" 
+      alt="{{ language.name }}" 
+      title="{{ language.name }}" 
+      width="16"
+      height="16"
+    />
+    {{ language.name }}
+  {% endif %}
+  {% endfor %}
+  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+</a>
+
+<div class="uk-dropdown" uk-dropdown>
+  <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-language">
+    <input type="hidden" name="code" value="" />
+    <input type="hidden" name="redirect" value="{{ redirect }}" />
+    <ul class="uk-nav uk-dropdown-nav">
+      {% for language in languages %}
+      <li>
+        <a href="#" onclick="changeLanguage('{{ language.code }}')">
+          <img 
+            src="catalog/language/{{ language.code }}/{{ language.code }}.png" 
+            alt="{{ language.name }}" 
+            title="{{ language.name }}"
+            width="16"
+            height="16"
+          />
+          {{ language.name }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </form>
+</div>
+{% endif %}

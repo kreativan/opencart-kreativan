@@ -1,0 +1,13 @@
+<div class="information-module">
+
+  <ul class="uk-nav uk-nav-default">
+    {% for information in informations %}
+      <li {% if page_id == information.id %}class="uk-active"{% endif %}>
+        <a href="{{ information.href }}">{{ information.title }}</a>
+      </li>
+    {% endfor %}
+    <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+    <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+  </ul>
+
+</div>

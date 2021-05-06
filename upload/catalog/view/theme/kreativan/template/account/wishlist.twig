@@ -1,0 +1,115 @@
+{{ header }}
+
+<div id="breadcrumb">
+  <div class="uk-container">
+    <ul class="uk-breadcrumb uk-margin-remove">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% if success %}
+  <div class="uk-alert uk-alert-success uk-margin-remove">
+    <div class="uk-container">
+      <span uk-icon="icon: check"></span>
+      {{ success }}
+    </div>
+  </div>
+{% endif %}
+
+<div id="main" class="uk-section" uk-height-viewport="expand: true">
+<div class="uk-container">
+
+  {{ content_top }}
+
+  {% if column_left or column_right %}<div class="uk-grid" uk-grid>{% endif %}
+
+  {% if column_left %}
+  <div class="uk-width-auto@m">
+    {{ column_left }}
+  </div>
+  {% endif %}
+
+  {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+
+    <div id="content">
+
+      <h2>{{ heading_title }}</h2>
+
+      {% if products %}
+        <div class="uk-grid uk-grid-small uk-child-width-1-4@l uk-child-width-1-3@s uk-grid-match" uk-grid>
+          {% for product in products %}
+            <div>
+              <div class="tm-border uk-padding-small uk-position-relative uk-flex uk-flex-column uk-flex-between">
+
+                {% if product.thumb %}
+                  <div class="uk-text-center uk-margin-small">
+                    <a href="{{ product.href }}">
+                      <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" loading="lazy" />
+                    </a>
+                  </div>
+                {% endif %}
+
+                <div>
+                  <h4 class="uk-margin-small uk-text-center">
+                    <a class="uk-link-heading"  href="{{ product.href }}">{{ product.name }}</a>
+                  </h4>
+
+                  <ul class="uk-list uk-list-striped uk-list-collapse uk-text-small uk-margin-small">
+                    <li>{{ column_model }}: {{ product.model }}</li>
+                    <li>{{ column_stock }}: {{ product.stock }}</li>
+                    {% if product.price %}
+                    <li>{{ column_price }}: {{ product.price }}</li>
+                    {% endif %}
+                  </ul>
+
+                  {% if product.price %}
+                  <div class="uk-margin-small uk-text-center">
+                    {% if not product.special %}
+                    <strong>{{ product.price }}</strong>
+                    {% else %}
+                    <strong>{{ product.special }}</strong>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </div>
+
+                <div class="uk-text-center">
+                  <button
+                    type="button"
+                    class="uk-icon-button uk-text-primary"
+                    uk-icon="cart"
+                    title="{{ button_cart }}" uk-tooltip
+                    onclick="addToCart({{ product.product_id }}, 1)">
+                  </button>
+                  <a href="{{ product.remove }}" title="{{ button_remove }}" class="uk-icon-button uk-text-danger" uk-icon="trash"></a>
+                </div>
+
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-mesage">{{ text_empty }}</p>
+      {% endif %}
+
+    </div>
+
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {% if column_right %}
+  <div class="uk-width-auto@m">
+    {{ column_right }}
+  </div>
+  {% endif %}
+
+  <!-- grid end -->
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {{ content_bottom }}
+
+</div>
+</div>
+{{ footer }}

@@ -1,0 +1,82 @@
+{{ header }}
+
+<div id="breadcrumb">
+  <div class="uk-container">
+    <ul class="uk-breadcrumb uk-margin-remove">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div id="main" class="uk-section">
+<div class="uk-container">
+
+    {{ content_top }}
+
+    {% if column_left or column_right %}<div class="uk-grid" uk-grid>{% endif %}
+
+    {% if column_left %}
+    <div class="uk-width-auto@m">
+      {{ column_left }}
+    </div>
+    {% endif %}
+
+    {% if column_left or column_right %}<div class="uk-width-expand@m">{% endif %}
+ 
+    <div id="content">
+      <h1>{{ heading_title }}</h1>
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="uk-form-stacked">
+        <div class="tm-panel uk-padding">
+          <div>
+            <label class="uk-form-label">{{ entry_newsletter }}</label>
+            <div class="uk-form-controls">
+              {% if newsletter %}
+              <label class="radio-inline uk-margin-small-right">
+                <input type="radio" class="uk-radio" name="newsletter" value="1" checked="checked" />
+                {{ text_yes }} </label>
+              <label class="radio-inline uk-margin-small-right">
+                <input type="radio" class="uk-radio" name="newsletter" value="0" />
+                {{ text_no }}</label>
+              {% else %}
+              <label class="radio-inline uk-margin-small-right">
+                <input type="radio" class="uk-radio" name="newsletter" value="1" />
+                {{ text_yes }} </label>
+              <label class="radio-inline uk-margin-small-right">
+                <input type="radio" class="uk-radio" name="newsletter" value="0" checked="checked" />
+                {{ text_no }}</label>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="buttons uk-margin-top uk-flex uk-flex-between">
+          <div class="pull-left">
+            <a href="{{ back }}" class="uk-button uk-button-default">
+              <span uk-icon="icon: arrow-left"></span>
+              {{ button_back }}
+            </a>
+          </div>
+          <div class="pull-right">
+            <input type="submit" value="{{ button_continue }}" class="uk-button uk-button-primary" />
+          </div>
+        </div>
+      </form>
+    </div>
+
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {% if column_right %}
+  <div class="uk-width-auto@m">
+    {{ column_right }}
+  </div>
+  {% endif %}
+
+  <!-- grid end -->
+  {% if column_left or column_right %}</div>{% endif %}
+
+  {{ content_bottom }}
+
+</div>
+</div>
+{{ footer }}

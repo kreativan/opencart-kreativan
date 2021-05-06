@@ -1,0 +1,134 @@
+<nav class="uk-navbar uk-navbar-container uk-navbar-transparent" uk-navbar>
+
+  <div class="uk-navbar-left">
+
+    <div class="uk-margin-right">
+      <a href="#offcanvas-category" class="uk-link-reset" 
+        onclick="categoryMenu({{ current_category }}, 0)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
+      </a>
+    </div>
+
+    <div id="logo">
+      {% if logo %}
+      <a href="{{ home }}" class="uk-logo">
+        <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" />
+      </a>
+      {% else %}
+      <a class="uk-logo uk-h4 uk-text-uppercase uk-text-bold uk-margin-remove" href="{{ home }}">{{ name }}</a>
+      {% endif %}
+    </div>
+
+    <ul class="uk-navbar-nav uk-margin-left">
+      <li>
+        <a href="#">
+          {{ text_categories }}
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </a>
+        <div class="uk-width-1-1 uk-dropdown" uk-dropdown="boundary: .uk-navbar; boundary-align: true">
+          <div class="uk-dropdown-grid uk-grid" uk-grid>
+            {% for item in categories %}
+            <div class="uk-width-{% if item.children|length > 15 %}1-3@m{% else %}expand@m{% endif %} uk-width-1-2">
+              {% if item.image %}
+                <div>
+                  <img src="{{ item.image }}" alt="{{ item.name }}" width="80" height="80" />
+                </div>
+              {% endif %}
+              <a class="uk-link-heading" href='{{ item.href }}' title='{{ item.name }}'>
+                {{ item.name }}
+              </a>
+              {% if item.children %}
+              <ul class="uk-nav uk-dropdown-nav uk-margin-small-top
+                  {% if item.children|length > 12 %} uk-column-1-3{% elseif item.children|length > 6 %} uk-column-1-2{% endif %}"
+              >
+                {% for subitem in item.children %}
+                <li>
+                  <a href="{{ subitem.href }}">{{ subitem.name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+      
+      {% for item in menu %}
+        <li {% if item.is_active %}class="uk-active"{% endif %}>
+          <a href="{{ item.href }}" title='{{ item.title }}'>{{ item.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+  <div class="uk-navbar-right">
+
+    <ul class="uk-navbar-nav">
+
+      <li>
+        <a class="uk-navbar-toggle uk-search-icon uk-icon" href="#modal-search" uk-search-icon uk-toggle></a>
+      </li>
+      
+      {% if logged %}
+      <li>
+        <a href="{{ wishlist }}" title="{{ text_wishlist }}" class="uk-position-relative">
+          {% if logged %}
+            <span id="wishlist-total" 
+              class="uk-badge uk-position-absolute{% if wishlist_count < 1 %} uk-hidden{% endif %}" 
+              style="top:17px; right: 0px;">
+              {{ wishlist_count }}
+            </span>
+          {% endif %}
+          <span uk-icon="icon: heart"></span>
+        </a>
+      </li>
+      {% endif %}
+
+      <li>
+        <a href="{{ compare_url }}" title="{{ text_compare }}" class="uk-position-relative">
+          <span id="compare-total" class="uk-badge uk-position-absolute{% if compare_count < 1 %} uk-hidden{% endif %}" style="top:17px; right: 0px;">
+            {{ compare_count }}
+          </span>
+          <span uk-icon="icon: copy"></span>
+        </a>
+      </li>
+
+      {% if logged %}
+      <li>
+        <a href="#"><span uk-icon="icon: user"></span></a>
+        <div class="uk-navbar-dropdown">
+          <ul class="uk-nav uk-navbar-dropdown-nav">
+            {% for item in user_menu %}
+              <li {% if item.is_active %}class="uk-active"{% endif %}>
+                <a href="{{ item.href }}" title="{{ item.title }}">{{ item.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+      {% endif %}
+
+      <li>
+        <a href="#offcanvas-cart" uk-toggle title="{{ text_cart }}">
+          <span class="cart-counter uk-badge uk-position-absolute{% if cart_count < 1 %} uk-hidden{% endif %}" style="top:17px; right: 0px;">
+            {{ cart_count }}
+          </span>
+          <span uk-icon="icon: cart"></span>
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+</nav>

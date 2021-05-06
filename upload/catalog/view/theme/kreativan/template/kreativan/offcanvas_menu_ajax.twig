@@ -1,0 +1,41 @@
+<div class="tm-offcanvas-header uk-text-center uk-position-relative uk-background-muted">
+
+  {% if not is_root %}
+  <button class="uk-icon-button uk-position-center-left uk-position-small" type="button" uk-icon="icon: arrow-left; ratio:1.4"
+    onclick="categoryMenu('{{ parent_id }}')"
+  >
+  </button>
+  {% endif %}
+
+  <h3 class="uk-h4 uk-margin-remove">
+    {{ headline }}
+  </h3>
+
+  <button class="uk-offcanvas-close uk-close uk-icon-button uk-position-center-right uk-position-small" uk-close="ratio: 1.2" type="button"></button>
+
+</div>
+
+
+<ul class="offcanvas-nav">
+
+  {% if not is_root %}
+  <li>
+    <a href="{{ href }}" title='{{ headline }}'>{{ text_all }}</a>
+  </li>
+  {% endif %}
+
+  {% for category in categories %}
+  <li{% if category.is_active == 1 %} class="uk-active"{% endif %}>
+    <a href="{{ category.href }}" title="{{ category.name }}"
+      {% if category.children > 0 %}
+      onclick="categoryMenu('{{ category.category_id }}')"
+      {% endif %}
+    >
+      {{ category.name }}
+      {% if category.children > 0 %}
+        <span class="uk-position-center-right uk-margin-small-right uk-icon" uk-icon="chevron-right"></span>
+      {% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
