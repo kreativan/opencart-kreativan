@@ -28,7 +28,7 @@ Don't dowload the repo and try to install it, it will not work! Download the rel
 * Do to the opencart directory restrictions (a bug?), need to install this extension first:    
   https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=33410
 * Go to *Extensions -> Modifications* and refresh. 
-* Upload kreativan-oc-framework.ocmod.zip 
+* Upload `kreativan-oc-framework.ocmod.zip` via extension installler. *Extensions -> installer*
 * At this point if you visit store front-end, you will get an error, dont worry, this is do to the custom files and modifications. Need to install and activate the theme, so continue...
 * Go to *Extensions -> Modifications* and refresh.
 * Go to *Extensions -> Extensions* and select extension type *Themes*
