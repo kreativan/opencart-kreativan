@@ -14,7 +14,7 @@ Motivation for this projects was to learn a bit of opencart, so complete front-e
 * Custom Settings
 * Hero - Uikit slideshow on homepage based on opencart banners
 * Popup - Display modal popup on page load
-* Resize Model Tool - Resize images and keep aspect ration
+* Resize Model Tool - Resize images and keep aspect ratio
 * Less Parser - compile less files
 * Dynamic multi-level offcanvas category menu that can be used for mobile and desktop
 * Dynamic global and user menu for mobile devices
