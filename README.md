@@ -1,4 +1,4 @@
-# Kreativan OpenCart UIkit
+# OpenCart UIkit
 This project is complete opencart front-end rebuild/rewrite with uikit front-end framework, removing jquery, bootstrap and other dependencies. All (well 99% :)) of the jquery code is replaced with vanilla js, css and uikit is parsed with integrated Less compiler based on wikimedia php less processor https://github.com/wikimedia/less.php. Custom modifications, admin pages, features, modules are included.     
 
 This project is suitable for building custom opencart shops and is not compatible wtih 3rd party themes and bootstrap dependent modules... Don't use it on production websites please!!! If you are curious, test it, and use it on your own risk...
